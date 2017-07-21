@@ -54,34 +54,57 @@ app.post('/postImage', function (req, res) {
             });
 
             var upload = multer({
-                storage: Storage
-            }).array("fileHolder", 3); 
-
-            upload(req, res, function(err) {
-                dbm.getOne({session:req.body.session},"users",function(user){
-                    if(user){
-                        if (err) {
-                            return res.end("Something went wrong!");
-                        }
-                        query={
-                            username:user.username,
-                            type:"image",
-                            topic:req.body.topic,
-                            body:imgName,
-                            id:imgName,
-                            linked:req.body.supertopic,
-                            date:new Date()
-                        };
-
-                        dbm.insert(query,"subtopics",function(result){
-                            res.send({status:"ok",message:result.ops[0].id});
+                storage: Storage,
+                fileFilter: function (req, file, cb) {
+                    if(req.body.topic.length>=5){
+                        dbm.getOne({session:req.body.sessionKey},"users",function(user){
+                            //console.log("checking user "+req.body.sessionKey);
+                            if(user){
+                                
+                                req.body.username=user.username;
+                                cb(null, true)
+                            }else{
+                                console.log("attempted key: "+req.body.sessionKey);
+                                return cb(new Error("Invalid session"));
+                                //res.send({status:"error",message:"Invalid Session!"});
+                                //res.end();
+                            }
                         });
                     }else{
-                        //do something to delete file if session is invalid because JS is awful
-                        res.end("invalid session");
+                        return cb(new Error("Topic must be at least 5 characters!"))
+
+                        //res.send({status:"error",message:"Topic must be at least 5 characters!"});
+                        //res.end();
                     }
+                }   
+            }).array("fileHolder", 1); 
+
+            
+
+            upload(req, res, function(err) {
+                
+                
+                    
+                if (err) {
+                    return res.end(err.message);
+                }
+
+                query={
+                    username:req.body.username,
+                    type:"image",
+                    topic:req.body.topic,
+                    body:imgName,
+                    id:imgName,
+                    linked:req.body.supertopic,
+                    date:new Date()
+                };
+
+                dbm.insert(query,"subtopics",function(result){
+                    res.end("ok");
                 });
-            });
+              
+                
+        });
 
 
 });
@@ -108,24 +131,25 @@ app.post('/load', function (req, res) {
 
 app.post('/subtopic', function (req, res) {
     //req.body.topic is the ID of post, that is not clear
+  
+
     dbm.get({linked:req.body.topic},"subtopics",function(data){
         dbm.getOne({id:req.body.topic},"subtopics",function(supertopic){
-           
-                if(req.body.topic=="supertopic"){
-                    file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                    rendered = ejs.render(file, {supertopic:{topic:"Supertopic"},que:[],topics:data});
-                    res.send(rendered);
+            if(req.body.topic=="supertopic"){
+                file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
+                rendered = ejs.render(file, {supertopic:{topic:"Supertopic"},que:[],topics:data});
+                res.send(rendered);
+            }else{
+                if(supertopic){
+                    getLinkQue(req.body.topic,function(que){
+                        file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
+                        rendered = ejs.render(file, {que:que,supertopic:supertopic,topics:data});
+                        res.send(rendered);
+                    });              
                 }else{
-                    if(supertopic){
-                        getLinkQue(req.body.topic,function(que){
-                            file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                            rendered = ejs.render(file, {que:que,supertopic:supertopic,topics:data});
-                            res.send(rendered);
-                        });              
-                    }else{
-                        res.send("this subtopic does not exist :(")
-                    }
+                    res.send("this subtopic does not exist :(")
                 }
+            }
         });
     });
 });
@@ -133,6 +157,14 @@ app.post('/subtopic', function (req, res) {
 
 //eventually change the 'linked' field to supertopic? idk.
 app.post('/post', function (req, res) {
+
+    //console.log(req.body.topic.length);
+
+    
+    if(req.body.topic.length<5){
+        res.send({status:"error",message:"Topic must be at least 5 characters!"});
+        return;
+    }
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
             query={
@@ -151,6 +183,7 @@ app.post('/post', function (req, res) {
             res.send({status:"error",message:"Invalid session ID"});
         }
     });
+    
 });
 
 //idk if recursively is the most efficent way, but it works

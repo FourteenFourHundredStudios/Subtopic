@@ -5,6 +5,9 @@
 
             <form id="imageForm" action="/postImage" method="post" enctype="multipart/form-data" target="hiddenFrame" style="margin:0">
 
+                <input type="hidden" id="sessionKey" name="sessionKey" value="">
+                <input type="hidden" id="supertopic" name="supertopic" value="">
+
                 <input type="text" id="topic" name="topic" class="textbox" placeholder="Topic" rows="10" cols="50"><br><br>
                 <textarea class="textbox" id="body" placeholder="Your content goes here (optional)" rows="10" cols="50"></textarea>
                 <br><br>
@@ -20,8 +23,13 @@
        
         </div>
     </div>
+    <iframe id="hiddenFrame" style="width:0; height:0; border:0; border:none;margin:0;"></iframe>
 </div>
+
+<!--
 <iframe id="hiddenFrame" style="width:0; height:0; border:0; border:none;margin:0;"></iframe>
+-->
+
 
 <script type="text/javascript">
 
@@ -65,29 +73,29 @@
     });
 
     $("#imageForm").submit( function(eventObj) {
-      $('<input />').attr('type', 'hidden')
-            .attr('name', "session")
-          .attr('value',getCookie("session"))
-          .appendTo(this);
 
-          $('<input />').attr('type', 'hidden')
-            .attr('name', "supertopic")
-          .attr('value',activeSubtopic)
-          .appendTo(this);
-        
-      return true;
-  });
+        $('#supertopic').val(activeSubtopic);
+        $('#sessionKey').val(getCookie("session"));
+
+        return true;
+    });
 
 $("#hiddenFrame").on("load", function () {
-   loadSubtopic("#subtopicPane",{topic:activeSubtopic},true);
+    resp=$("#hiddenFrame").contents().find("body").html().replace('<pre style="word-wrap: break-word; white-space: pre-wrap;">',"").replace("</pre>","");
+    if(resp=="ok"){
 
-   //too lazy to think of a way to revert post subtopic Form back, so im just loading it again from server lol
-    $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
-        $("#subtopicForm").fadeOut("fast",function(){
-            $("#subtopicForm").replaceWith(div);
-            $('#subtopicForm').fadeIn("fast");
+        loadSubtopic("#subtopicPane",{topic:activeSubtopic},true);
+
+        //too lazy to think of a way to revert post subtopic Form back, so im just loading it again from server lol
+        $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
+            $("#subtopicForm").fadeOut("fast",function(){
+                $("#subtopicForm").replaceWith(div);
+                $('#subtopicForm').fadeIn("fast");
+            });
         });
-    });
+    }else{
+        alert(resp);
+    }
 });
 
 
