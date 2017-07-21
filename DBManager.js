@@ -1,5 +1,8 @@
  db = mongoUtil.getDb();
 
+
+exports.db=db;
+
  exports.insert=function(value,doc,cb){
      // MongoClient.connect(url, function(err, db) {
 

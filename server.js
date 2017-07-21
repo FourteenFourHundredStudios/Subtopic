@@ -27,7 +27,6 @@ mongoUtil.connectToServer( function( err ) {
 
 
 
-
 app.use('/images', express.static('Images'))
 app.use('/static', express.static('Static'))
 
@@ -128,12 +127,33 @@ app.post('/load', function (req, res) {
 //aslo make more efficent,because it is poorly written
 //and start using async library
 
+function getTopics(search,index,count,callback){
+      //db.collection("customers").find().sort(mysort).toArray(function(err, result) {
+
+
+    dbm.db.collection("subtopics").find(search).skip(index*count).limit(count).sort({date:-1}).toArray(function(err, result) {
+       
+        callback(result);
+    });
+}
+
 
 app.post('/subtopic', function (req, res) {
     //req.body.topic is the ID of post, that is not clear
   
+    index=0;
+    count=5;
 
-    dbm.get({linked:req.body.topic},"subtopics",function(data){
+    if(req.body.index!==undefined){
+        index=parseInt(req.body.index);
+    }
+
+    if(req.body.count!==undefined){
+        count=parseInt(req.body.count);
+       // console.log(count);
+    }
+
+    getTopics({linked:req.body.topic},index,count,function(data){
         dbm.getOne({id:req.body.topic},"subtopics",function(supertopic){
             if(req.body.topic=="supertopic"){
                 file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),

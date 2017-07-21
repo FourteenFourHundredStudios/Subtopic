@@ -1,5 +1,5 @@
 
-loadSubtopic("#subtopicPane",{topic:"supertopic"},true);
+loadSubtopic("#subtopicPane",{topic:"supertopic",index:0,count:10},true);
 loadSubtopic("#suggestionPane",{topic:"supertopic"});
 
 if(getCookie("session").length!=0){
