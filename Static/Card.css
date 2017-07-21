@@ -1,0 +1,38 @@
+
+.cardHeading{
+    background-color:#42A5F5;
+    margin:0px;
+    color:white;
+    padding:10px;
+    padding-left:15px;
+    margin:0px;
+    border: 1pt solid rgba(0,0,0, 0.1);
+}
+
+.cardBody{
+    background-color:white;
+    padding:15px;
+    border: 1pt solid rgba(0,0,0, 0.1);
+}
+
+.cardContent{
+    overflow-x: scroll;
+    margin: 0px;
+    padding: 0px;
+}
+
+.smallText{
+    font-size:15px;
+    color:rgba(0,0,0, 0.50);
+}
+
+
+.card{
+    width:100%;
+    box-shadow: 5px 5px 5px #888888;
+    
+}
+
+img{
+    max-height: 300;
+}

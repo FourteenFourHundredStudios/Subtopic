@@ -1,0 +1,41 @@
+
+<div style="width:100%;margin-bottom:0px;">
+    <h1 style="display: inline-block;"><%= supertopic.topic%></h1>
+
+    <% que.forEach(function(subtopic){ %>
+        < <span class="topicQueLink" onClick="loadSubtopic('#subtopicPane',{topic:'<%= subtopic.id %>'},true);">
+            <%= subtopic.topic %>
+          </span>
+    <% }); %>
+
+</div>
+
+<div class="card">
+
+    <div class="cardBody">
+        <% if(topics.length>0){ %>
+            <% topics.forEach(function(topic){ %>
+                <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true);"> <%= topic.topic %> </a><br>
+                <span class="smallText">posted by <%= topic.username %></span>
+
+                <div class="cardContent">
+                    <% if(topic.type=="text"){ %>
+                            <% if(topic.body!=""){ %>
+                                <br>
+                                <%= topic.body %>
+                            <% } %>
+                    <%  } else if(topic.type=="image"){ %>
+                        <br>
+                        <img src="/images/<%=topic.id%>.png">
+                    <% } %>
+               </div>
+
+                <hr>
+            <% }); %>
+        <% }else{ %>
+            There are no Subtopics here yet 😭
+        <% } %>    
+
+    </div>
+
+</div>

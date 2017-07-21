@@ -1,0 +1,94 @@
+body{
+    font-family: Lato, arial, verdana, helvetica, sans-serif;
+    background-color:#FAFAFA;
+    padding:0px;
+    margin:0px;
+}
+
+a {
+    color:#42A5F5;
+    font-weight: bold;
+}
+
+a:hover {
+    color: brightness(85%);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.textbox {
+    background-color: transparent;
+    color: #eeeeee;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #eeeeee 1px;
+    color:black;
+    padding-bottom:10px;
+    font-size:15px;
+    width:100%;
+}
+
+.text{
+    color:grey;
+    font-size:12px;
+}
+
+
+.button{
+    border:none;
+    background-color:transparent;
+    color:#42A5F5;
+    font-size:20px;
+    font-weight: bold;
+}
+
+.button:hover{
+    cursor:pointer; 
+    filter: brightness(85%);
+}
+
+.imageBlock{
+    background-color:rgb(34,224,151);
+    color:white;
+    box-shadow: 2px 2px 2px #888888;
+}
+
+.imageBlock > h2{
+    padding: 10px;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #eeeeee;
+    margin: 1em 0;
+    padding: 0; 
+}
+
+a {
+    text-decoration: none;
+    font-size:20px;
+}
+
+.topicQueLink{
+    color:rgb(34,224,151);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.topicQueLink:hover{
+    text-decoration: underline;
+}
+
+input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

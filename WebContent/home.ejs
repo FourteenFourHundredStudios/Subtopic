@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>SubTopic: Home</title>
+        <link rel="stylesheet" type="text/css" href="/static/Card.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/Elements.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/util.js"></script>     
+    </head>
+    <body>
+
+        <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:#42A5F5;position:fixed;">
+            <h1 style="padding:10px;color:white;padding:0px;padding-left:30px">[Subtopic]</h1>
+        </div>
+
+        <br><br><br><br>
+
+        <div style="padding:30px">
+          
+
+            <div id="leftPane" style="float:left;width:30%"> 
+
+                <div id="loginForm">
+                    <h1>Login</h1>
+                    <div class="card">
+                        <div class="cardBody">
+                            <input class="textbox" id="username" placeholder="username" type="text"><br><br>
+                            <input class="textbox" id="password" placeholder="password" type="password"><br>
+                            <br>
+                            <input class="button" type="submit" id="loginButton" value="Login">
+                            <input class="button" type="submit" value="Signup">
+                        </div>
+                    </div>
+                </div>
+                
+                <br><br>
+
+
+                <div id="suggestionPane"></div>
+
+            </div>
+
+
+        
+            <div id="rightPane" style="float:left;width:60%;margin-left:10%">        
+                <div id="subtopicPane"></div><br><br>
+            </div>
+            
+
+        </div>
+    </body>
+
+</html>
+
+<script type="text/javascript" src="/static/contentManager.js"></script>

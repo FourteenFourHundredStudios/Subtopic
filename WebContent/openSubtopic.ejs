@@ -1,0 +1,94 @@
+<div id="subtopicForm">
+    <h1>Open a Subtopic</h1>
+    <div class="card">
+        <div class="cardBody">
+
+            <form id="imageForm" action="/postImage" method="post" enctype="multipart/form-data" target="hiddenFrame" style="margin:0">
+
+                <input type="text" id="topic" name="topic" class="textbox" placeholder="Topic" rows="10" cols="50"><br><br>
+                <textarea class="textbox" id="body" placeholder="Your content goes here (optional)" rows="10" cols="50"></textarea>
+                <br><br>
+                
+                
+                <button class="button" type="button" id="postButton" value="Post">Post</button>
+            
+            
+                <input type="file" id="imageButton" name="fileHolder" value="Image"/>
+                <label class="button" for="imageButton">Image</label>
+
+            </form>
+       
+        </div>
+    </div>
+</div>
+<iframe id="hiddenFrame" style="width:0; height:0; border:0; border:none;margin:0;"></iframe>
+
+<script type="text/javascript">
+
+    type="text";
+
+    $("#postButton").click(function(){
+        
+        if(type=="image"){
+            uploadImage();
+            return;
+        }
+        $.post("/post",{id:getCookie("session"),supertopic:activeSubtopic,topic:$("#topic").val(),body:$("#body").val()},function(result){
+            if(result.status=="ok"){
+                $("#topic").val("");
+                $("#topic").focus();
+                $("#body").val("");
+                loadSubtopic("#subtopicPane",{topic:activeSubtopic},true);
+                //alert("Your Subtopic was posted!");
+            }else{
+                alert(result.message);
+            }
+        });
+
+    });
+
+    /*
+    $("#imageButton").click(function(){
+        alert("This feature is currently not supported")
+    });*/
+
+    $("#imageButton").change(function (){
+       var fileName = $(this).val().replace("C:\\fakepath\\","");
+       $("#body").replaceWith("<div class='imageBlock'><h2 style='margin:0px;'>"+fileName+"</h2></div>");
+       type="image";
+
+     //  <button class="button" type="submit" id="postButton" value="Post">Post</button>
+
+       $("#postButton").replaceWith('<input class="button" type="submit" id="postButton" value="Post">');
+
+       //alert(fileName);
+    });
+
+    $("#imageForm").submit( function(eventObj) {
+      $('<input />').attr('type', 'hidden')
+            .attr('name', "session")
+          .attr('value',getCookie("session"))
+          .appendTo(this);
+
+          $('<input />').attr('type', 'hidden')
+            .attr('name', "supertopic")
+          .attr('value',activeSubtopic)
+          .appendTo(this);
+        
+      return true;
+  });
+
+$("#hiddenFrame").on("load", function () {
+   loadSubtopic("#subtopicPane",{topic:activeSubtopic},true);
+
+   //too lazy to think of a way to revert post subtopic Form back, so im just loading it again from server lol
+    $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
+        $("#subtopicForm").fadeOut("fast",function(){
+            $("#subtopicForm").replaceWith(div);
+            $('#subtopicForm').fadeIn("fast");
+        });
+    });
+});
+
+
+</script>
