@@ -13,6 +13,8 @@ const util = require('util');
 var formidable = require('formidable');
 bodyParser = require('body-parser');
 var multer = require('multer');
+wildcardSubdomains = require('wildcard-subdomains')
+
 
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
@@ -25,6 +27,14 @@ mongoUtil.connectToServer( function( err ) {
      
 });
 
+
+
+
+app.get('/s/*/', function(req, res){
+    url=req.originalUrl.substring(3);
+   // console.log(url)
+    res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
+})
 
 
 app.use('/images', express.static('Images'))
