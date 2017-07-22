@@ -1,4 +1,15 @@
 
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+
+/*
+::-webkit-scrollbar-thumb {
+    background: #42A5F5;
+}
+*/
 .cardHeading{
     background-color:#42A5F5;
     margin:0px;
@@ -17,6 +28,7 @@
 
 .cardContent{
     overflow-x: scroll;
+   
     margin: 0px;
     padding: 0px;
 }
