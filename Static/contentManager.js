@@ -4,13 +4,6 @@
 loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"supertopic"});
 
-$.post("/loadSafe",{page:"Login"},function(div){
-   // setCookie("session",key,30);
-    $("#loginForm").fadeOut("fast",function(){
-        $("#loginForm").replaceWith(div);
-        $('#loginForm').fadeIn("fast");
-    });
-});
 
 
 if(getCookie("session").length!=0){
@@ -20,25 +13,18 @@ if(getCookie("session").length!=0){
             $('#subtopicForm').fadeIn("fast");
         });
     });
+}else{
+    $.post("/loadSafe",{page:"Login"},function(div){
+        $("#loginForm").fadeOut("fast",function(){
+            $("#loginForm").replaceWith(div);
+            $('#loginForm').fadeIn("fast");
+        });
+    });
+
 }
 
-$("#loginButton").click(function(){
-    query={username:$("#username").val(),password:$("#password").val()};
-    $.post("/login",query,function(result){
-        if(result.status=="ok"){
-            key=result.message;
-            $.post("/load",{id:key,page:"openSubtopic"},function(div){       
-                setCookie("session",key,30);
-                $("#loginForm").fadeOut("fast",function(){
-                    $("#loginForm").replaceWith(div);
-                    $('#subtopicForm').fadeIn("fast");
-                });
-            });
-        }else if(result.status=="error"){
-            alert(result.message);
-        }
-    });
-});
+
+
 
 
 function loadSubtopic(id,topic,active){
@@ -55,14 +41,12 @@ function loadSubtopic(id,topic,active){
     });
 }
 
+function logout(){
+   deleteCookie("session"); 
+}
 
-
-
-    function showMore(topic,id,page){
-
-
-        $.post("/subtopic",{topic:topic,index:page+1,nobody:true},function(content){
-           $("#nextContent"+id).replaceWith(content);
-        });
-
-    }
+function showMore(topic,id,page){
+    $.post("/subtopic",{topic:topic,index:page+1,nobody:true},function(content){
+        $("#nextContent"+id).replaceWith(content);
+    });
+}
