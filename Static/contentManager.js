@@ -1,5 +1,7 @@
 
-loadSubtopic("#subtopicPane",{topic:"supertopic",index:0,count:10},true);
+topicCount={};
+
+loadSubtopic("#subtopicPane",{topic:"supertopic"},true);
 loadSubtopic("#suggestionPane",{topic:"supertopic"});
 
 if(getCookie("session").length!=0){
@@ -39,3 +41,22 @@ function loadSubtopic(id,topic,active){
         });
     });
 }
+
+
+
+
+    function showMore(topic,id){
+        
+        if(topicCount[topic]==undefined)topicCount[topic]=0;
+        
+        topicCount[topic]++;
+
+        //alert(id)
+
+        //console.log(topicCount[id]);
+
+        $.post("/subtopic",{topic:topic,index:topicCount[topic],nobody:true},function(content){
+           $("#nextContent"+id).replaceWith(content);
+        });
+
+    }

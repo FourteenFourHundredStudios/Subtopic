@@ -122,10 +122,7 @@ app.post('/load', function (req, res) {
     });
 });
 
-//notes to Marc:
-//do some cool function callback stuff with like 'specail subtopics like 'supertopic' and 'hottopic(lol)' '
-//aslo make more efficent,because it is poorly written
-//and start using async library
+
 
 function getTopics(search,index,count,callback){
       //db.collection("customers").find().sort(mysort).toArray(function(err, result) {
@@ -138,32 +135,45 @@ function getTopics(search,index,count,callback){
 }
 
 
+//notes to Marc:
+//do some cool function callback stuff with like 'specail subtopics like 'supertopic' and 'hottopic(lol)' '
+//aslo make more efficent,because it is poorly written
+//and start using async library
+
 app.post('/subtopic', function (req, res) {
     //req.body.topic is the ID of post, that is not clear
   
     index=0;
-    count=5;
+    count=7;
 
     if(req.body.index!==undefined){
         index=parseInt(req.body.index);
     }
 
+    /*
+    I figured changing the count to a variable was too much so I set it to 7 by default
     if(req.body.count!==undefined){
         count=parseInt(req.body.count);
        // console.log(count);
-    }
+    }*/
 
     getTopics({linked:req.body.topic},index,count,function(data){
+        //console.log(req.body.clean!=undefined);
+        if(req.body.clean!=undefined){
+            //console.log(data);
+            res.send(data);
+            return;
+        }
         dbm.getOne({id:req.body.topic},"subtopics",function(supertopic){
             if(req.body.topic=="supertopic"){
                 file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                rendered = ejs.render(file, {supertopic:{topic:"Supertopic"},que:[],topics:data});
+                rendered = ejs.render(file, {supertopic:{topic:"Supertopic",id:"supertopic"},req:req,que:[],topics:data});
                 res.send(rendered);
             }else{
                 if(supertopic){
                     getLinkQue(req.body.topic,function(que){
                         file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                        rendered = ejs.render(file, {que:que,supertopic:supertopic,topics:data});
+                        rendered = ejs.render(file, {que:que,req:req,supertopic:supertopic,topics:data});
                         res.send(rendered);
                     });              
                 }else{

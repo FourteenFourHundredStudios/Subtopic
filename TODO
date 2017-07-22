@@ -5,19 +5,21 @@ Signup
 hash passwords
 images [done]
 change url with post
-if subtopic que gets too long do something with that
-if subtopic gets too long, do something with that
-XSS Filter
-cannot post totally empty Subtopics
+if subtopic que gets too long do something with that [its good enough]
+if subtopic gets too long, do something with that [done]
+    issue; if 2 of same subtopic are on page "view more" will pick up where it left off
+XSS Filter [done]
+cannot post totally empty Subtopics [done]
+"logout button"
 
 
 not that important
 -------------------------
 deleting Subtopics
 search
-organize posts by date posted
+organize posts by date posted [done]
 highlight usernames green
 some type of "like" system
 specify where the subtopic you're creating is
 fix weird issue that happens if you're logged in @ 2 places/browsers
-"logout button"
+

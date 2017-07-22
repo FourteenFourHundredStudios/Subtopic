@@ -1,3 +1,9 @@
+<% 
+id=(Math.random()+"").replace(".","")
+//id=supertopic.id
+%>
+
+<% if(req.body.nobody===undefined){ %>
 
 <div style="width:100%;margin-bottom:0px;">
     <h1 style="display: inline-block;"><%= supertopic.topic%></h1>
@@ -10,9 +16,14 @@
 
 </div>
 
+
+
 <div class="card">
 
     <div class="cardBody">
+    
+     <% } %>
+    
         <% if(topics.length>0){ %>
             <% topics.forEach(function(topic){ %>
                 <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true);"> <%= topic.topic %> </a><br>
@@ -29,13 +40,23 @@
                         <img src="/images/<%=topic.id%>.png">
                     <% } %>
                </div>
-
+               
                 <hr>
             <% }); %>
+           
+             <div style="margin:0px;padding:0px;" id="nextContent<%= id %>">
+                <center><button onClick="showMore('<%= supertopic.id %>','<%= id %>')" class="button" style="color:rgb(34,224,151)">Show More</button></center>
+            </div>
+
         <% }else{ %>
-            There are no Subtopics here yet 😭
+            Sorry, we're all out of content! 😭
         <% } %>    
 
+        
+
+<% if(req.body.nobody===undefined){ %>
     </div>
 
 </div>
+
+<% } %>
