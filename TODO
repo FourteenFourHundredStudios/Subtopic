@@ -5,7 +5,7 @@ Signup
 hash passwords
 images [done]
 change url with post
-if subtopic que gets too long do something with that [its good enough]
+if subtopic que gets too long do something with that [done]
 if subtopic gets too long, do something with that [done]
     issue; if 2 of same subtopic are on page "view more" will pick up where it left off
 XSS Filter [done]

@@ -167,13 +167,13 @@ app.post('/subtopic', function (req, res) {
         dbm.getOne({id:req.body.topic},"subtopics",function(supertopic){
             if(req.body.topic=="supertopic"){
                 file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                rendered = ejs.render(file, {supertopic:{topic:"Supertopic",id:"supertopic"},req:req,que:[],topics:data});
+                rendered = ejs.render(file, {supertopic:{topic:"Supertopic",id:"supertopic"},req:req,que:[],topics:data,page:index});
                 res.send(rendered);
             }else{
                 if(supertopic){
                     getLinkQue(req.body.topic,function(que){
                         file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                        rendered = ejs.render(file, {que:que,req:req,supertopic:supertopic,topics:data});
+                        rendered = ejs.render(file, {que:que,page:index,req:req,supertopic:supertopic,topics:data});
                         res.send(rendered);
                     });              
                 }else{

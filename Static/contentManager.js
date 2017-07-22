@@ -45,17 +45,10 @@ function loadSubtopic(id,topic,active){
 
 
 
-    function showMore(topic,id){
-        
-        if(topicCount[topic]==undefined)topicCount[topic]=0;
-        
-        topicCount[topic]++;
+    function showMore(topic,id,page){
 
-        //alert(id)
 
-        //console.log(topicCount[id]);
-
-        $.post("/subtopic",{topic:topic,index:topicCount[topic],nobody:true},function(content){
+        $.post("/subtopic",{topic:topic,index:page+1,nobody:true},function(content){
            $("#nextContent"+id).replaceWith(content);
         });
 
