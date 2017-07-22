@@ -1,7 +1,7 @@
 
-topicCount={};
 
-loadSubtopic("#subtopicPane",{topic:"supertopic"},true);
+
+loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"supertopic"});
 
 if(getCookie("session").length!=0){
@@ -33,7 +33,11 @@ $("#loginButton").click(function(){
 
 
 function loadSubtopic(id,topic,active){
-    if(active)activeSubtopic=topic.topic;
+    if(active){
+        activeSubtopic=topic.topic;
+        
+        window.history.pushState("object or string", "test2", "/s/"+topic.topic);
+    }
     $.post("/subtopic",topic,function(div){
         $(id).fadeOut("fast",function(){
             $(id).html(div);
