@@ -4,6 +4,15 @@
 loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"supertopic"});
 
+$.post("/loadSafe",{page:"Login"},function(div){
+   // setCookie("session",key,30);
+    $("#loginForm").fadeOut("fast",function(){
+        $("#loginForm").replaceWith(div);
+        $('#loginForm').fadeIn("fast");
+    });
+});
+
+
 if(getCookie("session").length!=0){
     $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
         $("#loginForm").fadeOut("fast",function(){

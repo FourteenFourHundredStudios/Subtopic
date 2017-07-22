@@ -1,5 +1,4 @@
-
-
+/*global foobar */
 express = require('express');
 http = require('http');
 app = express();
@@ -132,6 +131,15 @@ app.post('/load', function (req, res) {
     });
 });
 
+app.post('/loadSafe', function (req, res) {
+            file = fs.readFileSync(__dirname + '/WebContent/safe/'+req.body.page+'.ejs', 'UTF-8'),
+                rendered = ejs.render(file, req.body);
+            res.send(rendered);
+
+
+
+
+});
 
 
 function getTopics(search,index,count,callback){
@@ -264,6 +272,15 @@ app.post('/login', function (req, res) {
             res.send({status:"error",message:"Invalid username or password"});
         }
     });
+});
+
+app.post('/signup', function (req,res) {
+    dbm.insert({
+        "username" : req.body.user,
+        "password" : req.body.password
+    },'users',()=>{
+
+    })
 });
 
 server.listen(8090,function(){
