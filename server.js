@@ -276,10 +276,19 @@ app.post('/login', function (req, res) {
 
 app.post('/signup', function (req,res) {
     dbm.insert({
-        "username" : req.body.user,
+        "username" : req.body.username,
         "password" : req.body.password
     },'users',()=>{
-
+        dbm.getOne({username:req.body.username,password:req.body.password},"users",function(result){
+            if(result){
+                key=sha1(Math.random());
+                dbm.update({username:req.body.username,password:req.body.password},{session:key},"users",function(result){
+                    res.send({status:"ok",message:key})
+                });
+            }else{
+                res.send({status:"error",message:"Invalid username or password"});
+            }
+        });
     })
 });
 
