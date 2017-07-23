@@ -29,6 +29,8 @@ if(getCookie("session").length!=0){
 
 function loadSubtopic(id,topic,active){
     if(active){
+        console.log(topic);
+        //document.title = 'Subtopic: '+topic.topic;
         activeSubtopic=topic.topic;
         
         window.history.pushState("object or string", "test2", "/s/"+topic.topic);

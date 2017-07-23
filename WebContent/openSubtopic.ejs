@@ -94,7 +94,9 @@ $("#hiddenFrame").on("load", function () {
             });
         });
     }else{
-        alert(resp);
+        if(resp.length>0){
+            alert(resp);
+        }
     }
 });
 
