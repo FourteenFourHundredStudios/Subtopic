@@ -12,7 +12,7 @@
 </div>
 
 <script type="text/javascript">
-
+   // $("#userFields").hide();
     $("#loginButton").click(function(){
         query={username:$("#username").val(),password:$("#password").val()};
         $.post("/login",query,function(result){

@@ -4,12 +4,13 @@ important
 Signup 
 hash passwords
 images [done]
-change url with post
+hide logout button when not logged in  [done]
+change url with post [done]
 if subtopic que gets too long do something with that [done]
 if subtopic gets too long, do something with that [done]
 XSS Filter [done]
 cannot post totally empty Subtopics [done]
-"logout button"
+"logout button" [done]
 
 
 not that important
