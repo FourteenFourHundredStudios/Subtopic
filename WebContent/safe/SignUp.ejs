@@ -2,11 +2,16 @@
     <h1>Login</h1>
     <div class="card">
         <div class="cardBody">
-            <input class="textbox" id="email" placeholder="email" type="text"><br><br>
+
+            <input class="textbox" id="code" placeholder="Activation code" type="text"><br><br>
+
+
             <input class="textbox" id="username" placeholder="username" type="text"><br><br>
-            <input class="textbox" id="password" placeholder="password" type="password"><br>
+            <input class="textbox" id="password" placeholder="password" type="password"><br><br>
+            <input class="textbox" id="passwordVal" placeholder="retype password" type="password"><br><br>
+            <input class="textbox" id="email" placeholder="email" type="text"><br>
             <br>
-            <input class="button" type="submit" id="SignInButton" value="SignIn">
+            <input class="button" type="submit" id="SignInButton" value="Sign Up!">
         </div>
     </div>
 </div>
@@ -14,7 +19,13 @@
 <script type="text/javascript">
 
     $("#SignInButton").click(function(){
-        query={username:$("#username").val(),password:$("#password").val(),email:$("#email").val()};
+        query={
+            username:$("#username").val(),
+            password:$("#password").val(),
+            passwordVal:$("#passwordVal").val(),
+            email:$("#email").val(),
+            code:$("#code").val()
+        };
         $.post("/signup",query,function(result){
             if(result.status=="ok"){
                 $.post("/login",query,function(result){
@@ -32,18 +43,7 @@
                         alert(result.message);
                     }
                 });
-                /*
-                $.post("/loadSafe",{id:key,page:"openSubtopic"},function(div){
-                console.log('return ok')
-                key=result.message;
-                $.post("/load",{id:key,page:"openSubtopic"},function(div){
-                    setCookie("session",key,30);
-                    $("#loginForm").fadeOut("fast",function(){
-                        $("#loginForm").replaceWith(div);
-                        $('#subtopicForm').fadeIn("fast");
-                    });
-                });
-                */
+
             }else if(result.status=="error"){
                 alert(result.message);
             }

@@ -1,5 +1,16 @@
  db = mongoUtil.getDb();
 
+db.collection("users").ensureIndex( { username: 1 }, { unique: true } );
+db.collection("users").ensureIndex( { email: 1 }, { unique: true } );
+
+
+db.collection("codes").insertOne({code:"marcsfriend",users:0},()=>{});
+db.collection("codes").insertOne({code:"adamsfriend",users:0},()=>{});
+db.collection("codes").insertOne({code:"foundonfacebook",users:0},()=>{});
+db.collection("codes").insertOne({code:"foundonredddit",users:0},()=>{});
+db.collection("codes").insertOne({code:"foundonyoutube",users:0},()=>{});
+
+db.collection("codes").ensureIndex( { code: 1 }, { unique: true } );
 
 exports.db=db;
 

@@ -1,12 +1,11 @@
 
 important
 ---------------------
-Signup 
-hash passwords
+Signup [done]
+hash passwords [done]
 images [done]
 hide logout button when not logged in  [done]
 change url with post [done]
-if subtopic que gets too long do something with that [done]
 if subtopic gets too long, do something with that [done]
 XSS Filter [done]
 cannot post totally empty Subtopics [done]
@@ -15,6 +14,8 @@ cannot post totally empty Subtopics [done]
 
 not that important
 -------------------------
+if subtopic que gets too long do something with that 
+captcha / and or email validation
 deleting Subtopics
 search
 organize posts by date posted [done]

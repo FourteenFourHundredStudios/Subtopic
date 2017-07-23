@@ -6,7 +6,7 @@
             <input class="textbox" id="password" placeholder="password" type="password"><br>
             <br>
             <input class="button" type="submit" id="loginButton" value="Login">
-            <input class="button" type="submit" id="signupButton" value="Signup">
+            <input class="button" type="submit" id="signupButton" value="Sign up">
         </div>
     </div>
 </div>
@@ -31,25 +31,7 @@
         });
     });
 
-    /*
-    $("#signupButton").click(function(){
-        query={username:$("#username").val(),password:$("#password").val()};
-        $.post("/signup",query,function(result){
-            if(result.status=="ok"){
-                key=result.message;
-                $.post("/load",{id:key,page:"openSubtopic"},function(div){
-                    setCookie("session",key,30);
-                    $("#loginForm").fadeOut("fast",function(){
-                        $("#loginForm").replaceWith(div);
-                        $('#subtopicForm').fadeIn("fast");
-                    });
-                });
-            }else if(result.status=="error"){
-                alert(result.message);
-            }
-        });
-    });
-//*/
+  
    $("#signupButton").click(function(){
        $.post("/loadSafe",{page:"SignUp"},function(div){
            $("#loginForm").fadeOut("fast",function(){
@@ -58,14 +40,7 @@
            });
        });
 
-       query={username:$("#username").val(),password:$("#password").val()};
-       $.post("/signup",query,function(result){
-           if(result.status=="ok"){
-               key=result.message;
-           }else if(result.status=="error"){
-               alert(result.message);
-           }
-       });
+
    });
 
 
