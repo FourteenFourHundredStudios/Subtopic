@@ -25,8 +25,6 @@ if(getCookie("session").length!=0){
 
 
 
-
-
 function loadSubtopic(id,topic,active){
     if(active){
         console.log(topic);

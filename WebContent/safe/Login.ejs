@@ -31,6 +31,7 @@
         });
     });
 
+    /*
     $("#signupButton").click(function(){
         query={username:$("#username").val(),password:$("#password").val()};
         $.post("/signup",query,function(result){
@@ -48,6 +49,26 @@
             }
         });
     });
+//*/
+   $("#signupButton").click(function(){
+       $.post("/loadSafe",{page:"SignUp"},function(div){
+           $("#loginForm").fadeOut("fast",function(){
+               $("#loginForm").replaceWith(div);
+               $('#subtopicForm').fadeIn("fast");
+           });
+       });
+
+       query={username:$("#username").val(),password:$("#password").val()};
+       $.post("/signup",query,function(result){
+           if(result.status=="ok"){
+               key=result.message;
+           }else if(result.status=="error"){
+               alert(result.message);
+           }
+       });
+   });
+
+
 
 
 </script>

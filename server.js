@@ -276,6 +276,7 @@ app.post('/login', function (req, res) {
 
 app.post('/signup', function (req,res) {
     dbm.insert({
+        "email" : req.body.email,
         "username" : req.body.username,
         "password" : req.body.password
     },'users',()=>{
