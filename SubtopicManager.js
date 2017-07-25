@@ -4,7 +4,7 @@ globalTopics={
 
     supertopic:{
         getTopics:function(req,callback){
-            getTopics({linked:req.body.topic},req.topic.index,req.topic.count,function(data){
+            getTopics({linked:"supertopic"},req.topic.index,req.topic.count,{date:-1},function(data){
                 callback(data);
             });
         },
@@ -12,13 +12,26 @@ globalTopics={
             id:"supertopic",
             topic:"Supertopic"
         }
+    },
+
+
+    hottopics:{
+        getTopics:function(req,callback){
+            getTopics({linked:"supertopic"},req.topic.index,req.topic.count,{},function(data){
+                callback(data);
+            });
+        },
+        supertopic:{
+            id:"hottopics",
+            topic:"Hot Topics 🔥"
+        }
     }
 
 }
 
 function getSubtopics(req,callback){
     if(globalTopics[req.body.topic]==undefined){
-        getTopics({linked:req.body.topic},req.topic.index,req.topic.count,function(data){
+        getTopics({linked:req.body.topic},req.topic.index,req.topic.count,{date:-1},function(data){
             callback(null,req,data);
         });
     }else{
@@ -40,10 +53,13 @@ function getSupertopic(req,subtopics,callback){
 }
 
 function getQue(req,subtopics,supertopic,callback){
-
-    getLinkQue(req.body.topic,function(que){
-        callback(null,req,subtopics,supertopic,que);
-    })
+    if(globalTopics[req.body.topic]==undefined){
+        getLinkQue(req.body.topic,function(que){
+            callback(null,req,subtopics,supertopic,que);
+        })
+    }else{
+        callback(null,req,subtopics,supertopic,[]);
+    }
     
 }
 
@@ -56,6 +72,14 @@ function handleParams(req,callback){
     }
     callback(null,req);
 }
+
+app.post('/options', function (req, res) {
+    dbm.getOne({session:req.body.id},"users",function(user){
+        file = fs.readFileSync(__dirname + '/WebContent/options.ejs', 'UTF-8'),
+        rendered = ejs.render(file, {req:req,user:user});
+        res.send(rendered);
+    });
+});
 
 app.post('/subtopic', function (req, res) {
     async.waterfall([
@@ -78,8 +102,8 @@ app.post('/subtopic', function (req, res) {
 });
 
 
-function getTopics(search,index,count,callback){
-    dbm.db.collection("subtopics").find(search).skip(index*count).limit(count).sort({date:-1}).toArray(function(err, result) {
+function getTopics(search,index,count,sort,callback){
+    dbm.db.collection("subtopics").find(search).skip(index*count).limit(count).sort(sort).toArray(function(err, result) {
         callback(result);
     });
 }

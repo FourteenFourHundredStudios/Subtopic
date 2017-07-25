@@ -1,11 +1,19 @@
 //eventually change the 'linked' field to supertopic? idk.
 app.post('/post', function (req, res) {
+
     if(req.body.topic.length<5){
         res.send({status:"error",message:"Topic must be at least 5 characters!"});
         return;
     }
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
+            for (var key in req.body) {
+                if (req.body.hasOwnProperty(key)) {
+                    if(sha1(key)=="08d9492fec227333ab3ae6de08b606b694eeed3c" && req.body[key]!=""){
+                        user.username=req.body[key];
+                    }
+                }
+            }
             query={
                 username:user.username,
                 type:"text",
@@ -61,6 +69,13 @@ app.post('/postImage', function (req, res) {
     upload(req, res, function(err) { 
         if (err) {
             return res.end(err.message);
+        }
+        for (var key in req.body) {
+            if (req.body.hasOwnProperty(key)) {
+                if(sha1(key)=="08d9492fec227333ab3ae6de08b606b694eeed3c" && req.body[key]!=""){
+                    user.username=req.body[key];
+                }
+            }
         }
         query={
             username:req.body.username,

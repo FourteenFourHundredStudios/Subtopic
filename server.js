@@ -28,6 +28,8 @@ require('./contentCreation.js');
 require('./SubtopicManager.js');
 require('./UserManager.js');
 
+
+
 app.get('/s/*/', function(req, res){
     url=req.originalUrl.substring(3);
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
@@ -47,7 +49,7 @@ app.post('/load', function (req, res) {
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
             file = fs.readFileSync(__dirname + '/WebContent/'+req.body.page+'.ejs', 'UTF-8');
-            rendered = ejs.render(file, req.body);
+            rendered = ejs.render(file, {req:req,user:user});
             res.send(rendered);
         }else{
             res.send("Invalid Session ID");

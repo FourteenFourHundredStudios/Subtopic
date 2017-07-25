@@ -28,9 +28,14 @@
 
 .cardContent{
     overflow-x: scroll;
-   
     margin: 0px;
     padding: 0px;
+}
+
+.CardContainer{
+    margin: 0px;
+    padding: 0px;
+    margin-top: 10px;
 }
 
 .smallText{
@@ -42,9 +47,14 @@
 .card{
     width:100%;
     box-shadow: 5px 5px 5px #888888;
-    
 }
 
 img{
     max-height: 300;
+}
+
+.optionsButton{
+    color:rgb(34,224,151);
+    font-weight: normal;
+    font-size:15;
 }

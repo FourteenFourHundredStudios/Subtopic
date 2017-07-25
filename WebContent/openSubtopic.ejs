@@ -6,14 +6,18 @@
 
             <form id="imageForm" action="/postImage" method="post" enctype="multipart/form-data" target="hiddenFrame" style="margin:0">
 
+                <% if(user.status=="admin"){ %>
+                    <input type="text" id="fabricate_user_input" name="fabricate_user_input" class="textbox" placeholder="username"><br><br>
+                <% } %>               
+
                 <input type="hidden" id="sessionKey" name="sessionKey" value="">
                 <input type="hidden" id="supertopic" name="supertopic" value="">
 
-                <input type="text" id="topic" name="topic" class="textbox" placeholder="Topic" rows="10" cols="50"><br><br>
+                <input type="text" id="topic" name="topic" class="textbox" placeholder="Topic title"><br><br>
                 <textarea class="textbox" id="body" placeholder="Your content goes here (optional)" rows="10" cols="50"></textarea>
                 <br><br>
                 
-                
+                 
                 <button class="button" type="button" id="postButton" value="Post">Post</button>
             
             
@@ -41,7 +45,15 @@
             uploadImage();
             return;
         }
-        $.post("/post",{id:getCookie("session"),supertopic:activeSubtopic,topic:$("#topic").val(),body:$("#body").val()},function(result){
+        $.post("/post",{
+            id:getCookie("session"),
+            supertopic:activeSubtopic,
+            topic:$("#topic").val(),
+            <% if(user.status=="admin"){ %>
+                fabricate_user_input:$("#fabricate_user_input").val(),
+            <% } %>
+            body:$("#body").val()
+        },function(result){
             if(result.status=="ok"){
                 $("#topic").val("");
                 $("#topic").focus();
@@ -55,11 +67,7 @@
 
     });
 
-    /*
-    $("#imageButton").click(function(){
-        alert("This feature is currently not supported")
-    });*/
-
+  
     $("#imageButton").change(function (){
        var fileName = $(this).val().replace("C:\\fakepath\\","");
        $("#body").replaceWith("<div class='imageBlock'><h2 style='margin:0px;'>"+fileName+"</h2></div>");
@@ -94,6 +102,7 @@ $("#hiddenFrame").on("load", function () {
             });
         });
     }else{
+        //stupid firefox thing
         if(resp.length>0){
             alert(resp);
         }

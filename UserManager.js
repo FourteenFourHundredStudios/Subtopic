@@ -16,7 +16,7 @@ app.post('/login', function (req, res) {
 
 app.post('/signup', function (req,res) {
     if(req.body.email.length<5){
-        res.send({status:"error",message:"Email too short!"});
+        res.send({status:"error",message:"email too short!"});
         return;
     }
     if(req.body.username.length<5){
@@ -36,10 +36,11 @@ app.post('/signup', function (req,res) {
             res.send({status:"error",message:"Invalid signup code!"});
             return;
         }
-        dbm.insert({
-            "email" : req.body.email,
+        dbm.insert({          
             "username" : req.body.username,
-            "password" : sha1(req.body.password)
+            "password" : sha1(req.body.password),
+            "email" : req.body.email,
+            "status" : "standard"
         },'users',(response,error)=>{
             if(error){
                 res.send({status:"error",message:"Username or email is taken!"});

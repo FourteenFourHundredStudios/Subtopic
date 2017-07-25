@@ -6,7 +6,7 @@ id=(Math.random()+"").replace(".","")
 <% if(req.body.nobody===undefined){ %>
 
 <div style="width:100%;margin-bottom:0px;">
-    <h1 style="display: inline-block;"><%= supertopic.topic%></h1>
+    <h1 style="display: inline-block;"><%= supertopic.topic%> </h1>
 
     <% que.forEach(function(subtopic){ %>
         < <span class="topicQueLink" onClick="loadSubtopic('#subtopicPane',{topic:'<%= subtopic.id %>'},true);">
@@ -23,28 +23,43 @@ id=(Math.random()+"").replace(".","")
     <div class="cardBody">
     
      <% } %>
-    
+   
         <% if(topics.length>0){ %>
+        
             <% topics.forEach(function(topic){ %>
-                <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true);"> <%= topic.topic %> </a><br>
-                <span class="smallText">posted by <%= topic.username %></span>
+            
+                <div class="CardContainer" id="topic-<%=topic.id%>" onClick="loadOptions(this,'<%=topic.id%>')" >
+                    <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
+                        <%= topic.topic %> 
+                    </a>
+                    <br>
+                    <span class="smallText">posted by 
+                        <% if(topic.username!="marc"){ %>
+                            <%= topic.username %>
+                        <% }else{ %>
+                            <b><span style='color:rgb(34,224,151)'> <%= topic.username %> </span></b>
+                        <% } %>
+                            
+                    </span>
 
-                <div class="cardContent">
-                    <% if(topic.type=="text"){ %>
+                    <div class="cardContent">
+                        <% if(topic.type=="text"){ %>
                             <% if(topic.body!=""){ %>
                                 <br>
                                 <%= topic.body %>
                             <% } %>
-                    <%  } else if(topic.type=="image"){ %>
-                        <br>
-                        <img src="/images/<%=topic.id%>.png">
-                    <% } %>
-               </div>
-               
+                        <%  } else if(topic.type=="image"){ %>
+                            <br>
+                            <img src="/images/<%=topic.id%>.png">
+                        <% } %>
+                    </div>
+
+                    
+                </div>
                 <hr>
             <% }); %>
            
-             <div style="margin:0px;padding:0px;" id="nextContent<%= id %>">
+             <div style="margin:0px;padding:0px;" id="nextContent<%= id %>"><br>
                 <center><button onClick="showMore('<%= supertopic.id %>','<%= id %>',<%=page %>)" class="button" style="color:rgb(34,224,151)">Show More</button></center>
             </div>
 
