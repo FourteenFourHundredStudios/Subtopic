@@ -1,42 +1,82 @@
 
-//notes to Marc:
-//do some cool function callback stuff with like 'specail subtopics like 'supertopic' and 'hottopic(lol)' '
-//aslo make more efficent,because it is poorly written
-//and start using async library
+
+globalTopics={
+
+    supertopic:{
+        getTopics:function(req,callback){
+            getTopics({linked:req.body.topic},req.topic.index,req.topic.count,function(data){
+                callback(data);
+            });
+        },
+        supertopic:{
+            id:"supertopic",
+            topic:"Supertopic"
+        }
+    }
+
+}
+
+function getSubtopics(req,callback){
+    if(globalTopics[req.body.topic]==undefined){
+        getTopics({linked:req.body.topic},req.topic.index,req.topic.count,function(data){
+            callback(null,req,data);
+        });
+    }else{
+        globalTopics[req.body.topic].getTopics(req,function(subtopics){
+            callback(null,req,subtopics);
+        });
+        
+    }
+}
+
+function getSupertopic(req,subtopics,callback){
+    if(globalTopics[req.body.topic]==undefined){
+        dbm.getOne({id:req.body.topic},"subtopics",function(supertopic){
+            callback(null,req,subtopics,supertopic);
+        });
+    }else{
+        callback(null,req,subtopics,globalTopics[req.body.topic].supertopic);
+    }
+}
+
+function getQue(req,subtopics,supertopic,callback){
+
+    getLinkQue(req.body.topic,function(que){
+        callback(null,req,subtopics,supertopic,que);
+    })
+    
+}
+
+function handleParams(req,callback){
+    req.topic={};
+    req.topic.index=0;
+    req.topic.count=7;
+    if(req.body.index!==undefined){
+        req.topic.index=parseInt(req.body.index);
+    }
+    callback(null,req);
+}
 
 app.post('/subtopic', function (req, res) {
-    //req.body.topic is the ID of post, that is not clear
-    index=0;
-    count=7;
-    if(req.body.index!==undefined){
-        index=parseInt(req.body.index);
-    }
-    getTopics({linked:req.body.topic},index,count,function(data){
-        //console.log(req.body.clean!=undefined);
-        if(req.body.clean!=undefined){
-            //console.log(data);
-            res.send(data);
-            return;
-        }
-        dbm.getOne({id:req.body.topic},"subtopics",function(supertopic){
-            if(req.body.topic=="supertopic"){
-                file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                rendered = ejs.render(file, {supertopic:{topic:"Supertopic",id:"supertopic"},req:req,que:[],topics:data,page:index});
-                res.send(rendered);
-            }else{
-                if(supertopic){
-                    getLinkQue(req.body.topic,function(que){
-                        file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-                        rendered = ejs.render(file, {que:que,page:index,req:req,supertopic:supertopic,topics:data});
-                        res.send(rendered);
-                    });              
-                }else{
-                    res.send("this subtopic does not exist :(")
-                }
-            }
+    async.waterfall([
+        async.apply(handleParams, req), 
+        getSubtopics,
+        getSupertopic,
+        getQue
+    ], function (err,req,subtopics,supertopic,que) {
+
+        file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
+        rendered = ejs.render(file, {
+            que:que,
+            page:req.topic.index,
+            req:req,
+            supertopic:supertopic,
+            topics:subtopics
         });
+        res.send(rendered);
     });
 });
+
 
 function getTopics(search,index,count,callback){
     dbm.db.collection("subtopics").find(search).skip(index*count).limit(count).sort({date:-1}).toArray(function(err, result) {

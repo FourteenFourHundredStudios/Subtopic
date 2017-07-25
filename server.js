@@ -11,6 +11,7 @@ sha1 = require('sha1');
 const util = require('util');
 bodyParser = require('body-parser');
 var multer = require('multer');
+async = require('async');
 
 
 app.use(bodyParser.urlencoded())
@@ -21,7 +22,6 @@ mongoUtil = require('./DBConnection');
 mongoUtil.connectToServer( function( err ) { 
      console.log("connected to DB!");    
      dbm = require('./DBManager');
-     
 });
 
 require('./contentCreation.js');
