@@ -4,7 +4,7 @@
     <a class="optionsButton">Cancel</a>  
 
 
-    <% if(user!=null){ %>
+    <% if(user!=null && subtopic!=null){ %>
     <% if (subtopic.username==user.username || user.status=="admin"){ %>
         <span style="color:#888888"> · </span>
         <a class="optionsButton" onClick="deleteSubtopic('<%=req.body.topicId%>',event)">Delete</a>

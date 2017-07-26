@@ -5,7 +5,6 @@ loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"hottopics"},false);
 
 
-
 if(getCookie("session").length!=0){
     $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
         $("#loginForm").fadeOut("fast",function(){
@@ -25,14 +24,15 @@ if(getCookie("session").length!=0){
 
 
 function loadSubtopic(id,topic,active,e){
+    
+    if(getCookie("session")!=undefined)topic["userId"]=getCookie("session");
+    
     if(e!=undefined){
         e.preventDefault();
         e.stopPropagation();
-        //alert("stopped?")
     }
     if(active){
         activeSubtopic=topic.topic;
-        
         window.history.pushState("", "", "/s/"+topic.topic);
     }
     $.post("/subtopic",topic,function(div){
@@ -52,7 +52,9 @@ function logout(){
 }
 
 function showMore(topic,id,page){
-    $.post("/subtopic",{topic:topic,index:page+1,nobody:true},function(content){
+    query={topic:topic,index:page+1,nobody:true};
+    if(getCookie("session")!=undefined)query["userId"]=getCookie("session");
+    $.post("/subtopic",query,function(content){
         $("#nextContent"+id).replaceWith(content);
     });
 }
@@ -87,13 +89,17 @@ function hideSubtopic(id,e){
 
 function deleteSubtopic(id,e){
     e.stopPropagation();
-    $.post("/delete",{id:getCookie("session"),subtopic:id},function(results){
-        if(results=="ok"){
-            $("#topic-"+id).hide('fast',function(){
-                $("#topic-"+id).remove();
-            });
-        }else{
-            alert(results);
-        }
-    });
+
+    var willDelete = confirm("Are you sure you want to delete this Subtopic?");
+    if(willDelete){
+        $.post("/delete",{id:getCookie("session"),subtopic:id},function(results){
+            if(results=="ok"){
+                $("#topic-"+id).hide('fast',function(){
+                    $("#topic-"+id).remove();
+                });
+            }else{
+                alert(results);
+            }
+        });
+    }
 }

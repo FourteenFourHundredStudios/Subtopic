@@ -25,6 +25,24 @@ globalTopics={
             id:"hottopics",
             topic:"Hot Topics 🔥"
         }
+    },
+
+    yourtopics:{
+        getTopics:function(req,callback){
+            if(req.body.userId.length!=0){
+                dbm.getOne({session:req.body.userId},"users",function(user){
+                    getTopics({username:user.username},req.topic.index,req.topic.count,{date:-1},function(data){
+                        callback(data);
+                    });
+                });
+            }else{
+                callback([]);
+            }
+        },
+        supertopic:{
+            id:"yourtopics",
+            topic:"Your Subtopics 😎"
+        }
     }
 
 }
