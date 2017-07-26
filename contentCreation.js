@@ -1,3 +1,5 @@
+
+
 //eventually change the 'linked' field to supertopic? idk.
 app.post('/post', function (req, res) {
 
@@ -89,6 +91,29 @@ app.post('/postImage', function (req, res) {
 
         dbm.insert(query,"subtopics",function(result){
             res.end("ok");
+        });
+    });
+});
+
+
+app.post('/delete', function (req, res) {
+    dbm.getOne({session:req.body.id},"users",function(user){
+        dbm.getOne({id:req.body.subtopic},"subtopics",function(subtopic){
+            if(subtopic){
+                if(user){
+                    if(user.username==subtopic.username || user.status=="admin"){
+                        dbm.deleteOne({id:req.body.subtopic},"subtopics",function(result){
+                            res.send("ok");
+                        });
+                    }else{
+                        res.send("You do not have permission to do this!");
+                    }
+                }else{
+                    res.send("Invalid session!")
+                }
+            }else{
+                res.send("This subtopic does not exist....so...problem solved?")
+            }
         });
     });
 });

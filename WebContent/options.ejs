@@ -1,7 +1,17 @@
 <div id='optionsPane'>
+    <a class="optionsButton" onClick="hideSubtopic('<%=req.body.topicId%>',event)">Hide</a>  
+    <span style="color:#888888"> · </span>
+    <a class="optionsButton">Cancel</a>  
 
-   
-    <a class="optionsButton" onClick="hideSubtopic()">Hide</a>  <span style="color:#888888">·</span>
-    <a class="optionsButton" onClick="deleteSubtopic()">Delete</a>
+
+    <% if(user!=null){ %>
+    <% if (subtopic.username==user.username || user.status=="admin"){ %>
+        <span style="color:#888888"> · </span>
+        <a class="optionsButton" onClick="deleteSubtopic('<%=req.body.topicId%>',event)">Delete</a>
+    <% } 
+    }
+    %>
+
+
     <br><br>
 </div>

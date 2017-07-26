@@ -75,9 +75,11 @@ function handleParams(req,callback){
 
 app.post('/options', function (req, res) {
     dbm.getOne({session:req.body.id},"users",function(user){
-        file = fs.readFileSync(__dirname + '/WebContent/options.ejs', 'UTF-8'),
-        rendered = ejs.render(file, {req:req,user:user});
-        res.send(rendered);
+        dbm.getOne({id:req.body.topicId},"subtopics",function(subtopic){
+            file = fs.readFileSync(__dirname + '/WebContent/options.ejs', 'UTF-8'),
+            rendered = ejs.render(file, {req:req,user:user,subtopic:subtopic});
+            res.send(rendered);
+        });
     });
 });
 

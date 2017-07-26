@@ -57,17 +57,43 @@ function showMore(topic,id,page){
     });
 }
 
-function loadOptions(div,id){
-    //alert("topic expanded")
-    $.post("/options",{id:getCookie("session"),topicId:id},function(options){
-        $(div).append(options);
+function loadOptions(div,id){  
+    if($('#optionsPane').length==0){
+        $.post("/options",{id:getCookie("session"),topicId:id},function(options){
+            $(options).insertBefore($(div).find("hr")).hide().show('fast');
+        });   
+    }else{
+         if($(div).find("#optionsPane").length>0){
+             $("#optionsPane").hide("fast",function(){
+                $("#optionsPane").remove();
+             });
+             return;
+         }
+         $("#optionsPane").hide("fast",function(){
+            $("#optionsPane").remove();
+            $.post("/options",{id:getCookie("session"),topicId:id},function(options){
+                $(options).insertBefore($(div).find("hr")).hide().show('fast');
+            });
+        });
+    }
+}
+
+function hideSubtopic(id,e){
+    e.stopPropagation();
+    $("#topic-"+id).hide('fast',function(){
+        $("#topic-"+id).remove();
     });
 }
 
-function hideSubtopic(id){
-        
-}
-
-function deleteSubtopic(){
-        
+function deleteSubtopic(id,e){
+    e.stopPropagation();
+    $.post("/delete",{id:getCookie("session"),subtopic:id},function(results){
+        if(results=="ok"){
+            $("#topic-"+id).hide('fast',function(){
+                $("#topic-"+id).remove();
+            });
+        }else{
+            alert(results);
+        }
+    });
 }
