@@ -10,7 +10,7 @@ sha1 = require('sha1');
 'use strict';
 const util = require('util');
 bodyParser = require('body-parser');
-var multer = require('multer');
+multer = require('multer');
 async = require('async');
 
 

