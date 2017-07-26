@@ -16,11 +16,17 @@ not that important
 -------------------------
 if subtopic que gets too long do something with that 
 captcha / and or email validation
-deleting Subtopics
+deleting Subtopics [done]
 search
 organize posts by date posted [done]
 highlight usernames green
 some type of "like" system
 specify where the subtopic you're creating is
-fix weird issue that happens if you're logged in @ 2 places/browsers
 
+
+
+issues
+--------------------
+fix weird issue that happens if you're logged in @ 2 browsers
+fix issue where if 2 subtopics on the screen at the same time, and it gets deleted, only one collapses
+    I could just refresh it? idk 

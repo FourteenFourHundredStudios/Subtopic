@@ -24,9 +24,7 @@ if(getCookie("session").length!=0){
 
 
 function loadSubtopic(id,topic,active,e){
-    
     if(getCookie("session")!=undefined)topic["userId"]=getCookie("session");
-    
     if(e!=undefined){
         e.preventDefault();
         e.stopPropagation();
@@ -41,7 +39,6 @@ function loadSubtopic(id,topic,active,e){
             $(id).fadeIn("fast");
         });
     });
-
 }
 
 
@@ -82,20 +79,19 @@ function loadOptions(div,id){
 
 function hideSubtopic(id,e){
     e.stopPropagation();
-    $("#topic-"+id).hide('fast',function(){
-        $("#topic-"+id).remove();
+    $("[id=topic-"+id+"]").hide('fast',function(){
+        $("[id=topic-"+id+"]").remove();
     });
 }
 
 function deleteSubtopic(id,e){
     e.stopPropagation();
-
     var willDelete = confirm("Are you sure you want to delete this Subtopic?");
     if(willDelete){
         $.post("/delete",{id:getCookie("session"),subtopic:id},function(results){
             if(results=="ok"){
-                $("#topic-"+id).hide('fast',function(){
-                    $("#topic-"+id).remove();
+                $("[id=topic-"+id+"]").hide('fast',function(){
+                    $("[id=topic-"+id+"]").remove();
                 });
             }else{
                 alert(results);

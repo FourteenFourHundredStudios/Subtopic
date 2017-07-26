@@ -102,22 +102,29 @@ app.post('/options', function (req, res) {
 });
 
 app.post('/subtopic', function (req, res) {
-    async.waterfall([
-        async.apply(handleParams, req), 
-        getSubtopics,
-        getSupertopic,
-        getQue
-    ], function (err,req,subtopics,supertopic,que) {
-
-        file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
-        rendered = ejs.render(file, {
-            que:que,
-            page:req.topic.index,
-            req:req,
-            supertopic:supertopic,
-            topics:subtopics
-        });
-        res.send(rendered);
+    //NOT EFFICENT, MARC
+    //console.log(req.body.topic);
+    dbm.getOne({id:req.body.topic},"subtopics",function(subtopic){
+        if( subtopic || globalTopics[req.body.topic]!=undefined ){
+            async.waterfall([
+                async.apply(handleParams, req), 
+                getSubtopics,
+                getSupertopic,
+                getQue
+            ], function (err,req,subtopics,supertopic,que) {
+                file = fs.readFileSync(__dirname + '/WebContent/subtopic.ejs', 'UTF-8'),
+                rendered = ejs.render(file, {
+                    que:que,
+                    page:req.topic.index,
+                    req:req,
+                    supertopic:supertopic,
+                    topics:subtopics
+                });
+                res.send(rendered);
+            });
+        }else{
+            res.send("<div style='' class='card cardBody CardContainer cardContent' ><div style='padding:10px'>This Subtopic does not exist! 🤔😭</div></div>");
+        }
     });
 });
 
