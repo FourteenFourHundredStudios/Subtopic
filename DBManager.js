@@ -1,8 +1,7 @@
- db = mongoUtil.getDb();
+db = mongoUtil.getDb();
 
 db.collection("users").ensureIndex( { username: 1 }, { unique: true } );
 db.collection("users").ensureIndex( { email: 1 }, { unique: true } );
-
 
 db.collection("codes").insertOne({code:"marcsfriend",users:0},()=>{});
 db.collection("codes").insertOne({code:"adamsfriend",users:0},()=>{});

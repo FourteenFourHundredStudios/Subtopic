@@ -15,15 +15,15 @@ app.post('/login', function (req, res) {
 
 
 app.post('/signup', function (req,res) {
-    if(req.body.email.length<5){
+    if(req.body.email.length<2){
         res.send({status:"error",message:"email too short!"});
         return;
     }
-    if(req.body.username.length<5){
+    if(req.body.username.length<2){
         res.send({status:"error",message:"username too short!"});
         return;
     }
-    if(req.body.password.length<5){
+    if(req.body.password.length<2){
         res.send({status:"error",message:"password too short!"});
         return;
     }
