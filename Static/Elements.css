@@ -11,7 +11,6 @@ a {
 }
 
 a:hover {
-    color: brightness(85%);
     text-decoration: underline;
     cursor: pointer;
 }
@@ -45,9 +44,11 @@ a:hover {
     font-weight: bold;
 }
 
+/* Cant change button color idk why*/
 .button:hover{
     cursor:pointer; 
-    filter: brightness(85%);
+    color: rgb(44,244,171)!important;
+    
 }
 
 .imageBlock{

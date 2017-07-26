@@ -6,68 +6,37 @@
         <link rel="stylesheet" type="text/css" href="/static/Elements.css"/>
         <script src="/static/jquery.js"></script>
         <script type="text/javascript" src="/static/util.js"></script>
-
     </head>
     <body>
-
-       
-        
         <div style="margin:0px;top:5;left:0;width:100%;padding:0px;background-color:#42A5F5;position:fixed;">
             <h1 style="padding:10px;color:white;padding:0px;padding-left:30px;float:left">[Subtopic]</h1>
-
-
             <h3 id="userFields" style="display:none;padding:10px;color:white;padding:0px;padding-right:30px;float:right;padding-top:5px">
-                <button class="button" style="color:white" onClick="logout()">Logout</button>
-            </h3>
-                
+                <button class="button" style="color:white" onClick='loadSubtopic("#subtopicPane",{topic:"yourtopics"},true);'>My Subtopics</button>
+                <button class="button" style="color:white" onClick='loadSubtopic("#subtopicPane",{topic:"supertopic"},true);'>Supertopic</button>
+                <button class="button" style="color:white" onClick="logout()">Logout</button> 
+            </h3>     
         </div>
         <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:rgb(34,224,151);position:fixed;height:5px;"></div>
-
         <br><br><br><br>
-
-         
-
         <div style="padding:30px">
-          
-
             <div id="leftPane" style="float:left;width:30%"> 
-
-                <div id="loginForm"></div>
-                
+                <div id="loginForm"></div><br><br>
+                <div id="suggestionPane"></div><br><br>
                 <br><br>
-
-
-                <div id="suggestionPane"></div>
-                <br><br><br><br>
             </div>
-
-
-        
             <div id="rightPane" style="float:left;width:65%;margin-left:5%">        
                 <div id="subtopicPane"></div><br><br>
                 <div id="extraPane"></div><br><br>
             </div>
-            
-
         </div>
     </body>
-
 </html>
-
 <script type="text/javascript">
     topic="supertopic"
 </script>
-
- <% 
- 
-
- if(typeof domain != 'undefined'){ %>
+ <% if(typeof domain != 'undefined'){ %>
     <script type="text/javascript">
         topic='<%= domain%>';
     </script>
 <% } %>
-
 <script type="text/javascript" src="/static/contentManager.js"></script>
-
-
-
