@@ -1,6 +1,8 @@
 <div id='optionsPane'>
     <a class="optionsButton" onClick="hideSubtopic('<%=req.body.topicId%>',event)">Hide</a>  
     <span style="color:#888888"> · </span>
+    <a class="optionsButton" onClick="loadSubtopic('#subtopicPane',{topic:'<%=req.body.topicId%>'},true,event);">View</a>  
+    <span style="color:#888888"> · </span>
     <a class="optionsButton">Cancel</a>  
 
 

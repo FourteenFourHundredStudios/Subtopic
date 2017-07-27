@@ -34,7 +34,7 @@ id=(Math.random()+"").replace(".","")
                     </a>
                     <br>
                     <span class="smallText">posted by 
-                        <% if(topic.username!="marc"){ %>
+                        <% if( topic.username!="marc" && topic.username!="subtopic"){ %>
                             <%= topic.username %>
                         <% }else{ %>
                             <b><span style='color:rgb(34,224,151)'> <%= topic.username %> </span></b>

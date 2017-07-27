@@ -24,6 +24,7 @@ if(getCookie("session").length!=0){
 
 
 function loadSubtopic(id,topic,active,e){
+    $("html, body").animate({ scrollTop: 0 }, "fast");
     if(getCookie("session")!=undefined)topic["userId"]=getCookie("session");
     if(e!=undefined){
         e.preventDefault();

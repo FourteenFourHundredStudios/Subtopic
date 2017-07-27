@@ -56,6 +56,6 @@ app.post('/signup', function (req,res) {
                     res.send({status:"error",message:"There was a problem logging you in!"});
                 }
             });
-        })
+        });
     });
 });
