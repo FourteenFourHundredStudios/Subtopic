@@ -38,6 +38,10 @@
     margin-bottom: 10px;
 }
 
+.CardContainer:hover{
+    cursor:pointer;
+}
+
 .smallText{
     font-size:15px;
     color:rgba(0,0,0, 0.50);
