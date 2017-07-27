@@ -28,5 +28,17 @@ specify where the subtopic you're creating is
 issues
 --------------------
 fix weird issue that happens if you're logged in @ 2 browsers
-fix issue where if 2 subtopics on the screen at the same time, and it gets deleted, only one collapses
-    I could just refresh it? idk 
+fix issue where if 2 subtopics on the screen at the same time, and it gets deleted, only one collapse [done]
+
+
+THIRD RELEASE
+------------------
+email verification 
+notifications
+search function
+links
+
+
+misc things
+-------------
+display number of subtopics in options instead of "view"

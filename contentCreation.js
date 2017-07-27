@@ -110,7 +110,7 @@ app.post('/delete', function (req, res) {
                     res.send("Invalid session!")
                 }
             }else{
-                res.send("This subtopic does not exist....so...problem solved?")
+                res.send("This subtopic does not exist....so...problem solved? 🤷‍♂️")
             }
         });
     });
