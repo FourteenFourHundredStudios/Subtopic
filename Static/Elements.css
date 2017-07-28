@@ -5,6 +5,10 @@ body{
     margin:0px;
 }
 
+h1 {
+    color:rgba(0,0,0,.7);
+}
+
 a {
     color:#42A5F5;
     font-weight: bold;
