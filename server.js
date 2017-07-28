@@ -46,6 +46,7 @@ app.get('/', function (req, res) {
 
 
 app.post('/load', function (req, res) {
+    console.log('hi')
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
             file = fs.readFileSync(__dirname + '/WebContent/'+req.body.page+'.ejs', 'UTF-8');
@@ -58,6 +59,7 @@ app.post('/load', function (req, res) {
 });
 
 app.post('/loadSafe', function (req, res) {
+
     file = fs.readFileSync(__dirname + '/WebContent/safe/'+req.body.page+'.ejs', 'UTF-8');
     rendered = ejs.render(file, req.body);
     res.send(rendered);

@@ -1,5 +1,3 @@
-
-
 globalTopics={
 
     supertopic:{
@@ -17,7 +15,7 @@ globalTopics={
 
     hottopics:{
         getTopics:function(req,callback){
-            getTopics({linked:"supertopic"},req.topic.index,req.topic.count,{},function(data){
+            getTopics({linked:"supertopic"},req.topic.index,req.topic.count,{hotness : 1},function(data){
                 callback(data);
             });
         },
@@ -103,7 +101,10 @@ app.post('/options', function (req, res) {
 
 app.post('/subtopic', function (req, res) {
     //NOT EFFICENT, MARC
-    //console.log(req.body.topic);
+    console.log(req.body.topic);
+
+    dbm.db.collection("subtopics").update({id: req.body.topic },{ $inc: { hotness: 1} })
+
     dbm.getOne({id:req.body.topic},"subtopics",function(subtopic){
         if( subtopic || globalTopics[req.body.topic]!=undefined ){
             async.waterfall([

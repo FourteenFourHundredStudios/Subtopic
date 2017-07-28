@@ -1,5 +1,4 @@
 db = mongoUtil.getDb();
-
 db.collection("users").ensureIndex( { username: 1 }, { unique: true } );
 db.collection("users").ensureIndex( { email: 1 }, { unique: true } );
 

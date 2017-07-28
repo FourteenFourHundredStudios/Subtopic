@@ -2,7 +2,6 @@
 
 //eventually change the 'linked' field to supertopic? idk.
 app.post('/post', function (req, res) {
-
     if(req.body.topic.length<5){
         res.send({status:"error",message:"Topic must be at least 5 characters!"});
         return;
@@ -23,7 +22,8 @@ app.post('/post', function (req, res) {
                 body:req.body.body,
                 id:sha1(Math.random()),
                 linked:req.body.supertopic,
-                date:new Date()
+                date:new Date(),
+                hotness: 02
             };
             dbm.insert(query,"subtopics",function(result){
                 res.send({status:"ok",message:result.ops[0].id});

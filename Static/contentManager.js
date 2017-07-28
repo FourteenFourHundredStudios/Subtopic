@@ -4,7 +4,6 @@
 loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"hottopics"},false);
 
-
 if(getCookie("session").length!=0){
     $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
         $("#loginForm").fadeOut("fast",function(){
@@ -24,6 +23,7 @@ if(getCookie("session").length!=0){
 
 
 function loadSubtopic(id,topic,active,e){
+
     if(getCookie("session")!=undefined)topic["userId"]=getCookie("session");
     if(e!=undefined){
         e.preventDefault();
@@ -33,7 +33,7 @@ function loadSubtopic(id,topic,active,e){
         activeSubtopic=topic.topic;
         window.history.pushState("", "", "/s/"+topic.topic);
     }
-    $.post("/subtopic",topic,function(div){
+    $.post("/subtopic",topic,function(div){ //where you send id (delete this comment)
         $(id).fadeOut("fast",function(){
             $(id).html(div);
             $(id).fadeIn("fast");
