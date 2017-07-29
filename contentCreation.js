@@ -23,7 +23,7 @@ app.post('/post', function (req, res) {
                 id:sha1(Math.random()),
                 linked:req.body.supertopic,
                 date:new Date(),
-                hotness: 02
+                hotness: 0
             };
             dbm.insert(query,"subtopics",function(result){
                 res.send({status:"ok",message:result.ops[0].id});
@@ -79,7 +79,8 @@ app.post('/postImage', function (req, res) {
             body:imgName,
             id:imgName,
             linked:req.body.supertopic,
-            date:new Date()
+            date:new Date(),
+            hotness: 0
         };
 
         if(req.body.fabricate_user_input!=undefined){
