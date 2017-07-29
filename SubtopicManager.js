@@ -15,7 +15,7 @@ globalTopics={
 
     hottopics:{
         getTopics:function(req,callback){
-            getTopics({linked:"supertopic"},req.topic.index,req.topic.count,{hotness : -1},function(data){
+            getTopics({},req.topic.index,req.topic.count,{hotness : -1},function(data){
                 callback(data);
             });
         },
