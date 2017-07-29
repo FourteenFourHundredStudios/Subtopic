@@ -101,7 +101,6 @@ app.post('/options', function (req, res) {
 
 app.post('/subtopic', function (req, res) {
     //NOT EFFICENT, MARC
-    console.log(req.body.topic);
 
     dbm.db.collection("subtopics").update({id: req.body.topic },{ $inc: { hotness: 1} })
 

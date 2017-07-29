@@ -59,7 +59,6 @@ app.post('/postImage', function (req, res) {
                         req.body.username=user.username;
                         cb(null, true)
                     }else{
-                        console.log("attempted key: "+req.body.sessionKey);
                         return cb(new Error("Invalid session"));
                     }
                 });

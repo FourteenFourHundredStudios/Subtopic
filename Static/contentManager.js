@@ -1,8 +1,12 @@
 
 
+if(getUrlParameter("q")=="v"){
+    alert("Your account has successfully been activated! Please sign in!")
+}
 
 loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"hottopics"},false);
+
 
 if(getCookie("session").length!=0){
     $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       

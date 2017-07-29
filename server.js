@@ -12,7 +12,7 @@ const util = require('util');
 bodyParser = require('body-parser');
 multer = require('multer');
 async = require('async');
-
+nodemailer = require("nodemailer");
 
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
@@ -37,17 +37,31 @@ app.get('/s/*/', function(req, res){
 })
 
 
-app.use('/images', express.static('Images'))
-app.use('/static', express.static('Static'))
+app.use('/images', express.static('Images'));
+app.use('/static', express.static('Static'));
 
 
 app.get('/', function (req, res) {
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query});
 });
 
+app.get('/v', function (req, res) {
+     dbm.getOne({status:req.query.c},"users",function(user){
+         if(user){
+            dbm.update({status:req.query.c},{status:"active"},"users",function(result){
+                res.writeHead(302, {
+                    'Location': '/?q=v'
+                });
+                res.end();
+            });
+         }else{
+             res.send("This link has expired or does not exist!");
+         }
+     });
+});
+
 
 app.post('/load', function (req, res) {
-    console.log('hi')
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
             file = fs.readFileSync(__dirname + '/WebContent/'+req.body.page+'.ejs', 'UTF-8');

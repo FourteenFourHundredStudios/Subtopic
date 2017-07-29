@@ -18,37 +18,34 @@
 
 <script type="text/javascript">
 
-    $("#SignInButton").click(function(){
-        query={
-            username:$("#username").val(),
-            password:$("#password").val(),
-            passwordVal:$("#passwordVal").val(),
-            email:$("#email").val(),
-            code:$("#code").val()
-        };
-        $.post("/signup",query,function(result){
-            if(result.status=="ok"){
-                $.post("/login",query,function(result){
-                    if(result.status=="ok"){
-                        key=result.message;
-                        $.post("/load",{id:key,page:"openSubtopic"},function(div){
-                            console.log('subtopic?')
-                            setCookie("session",key,30);
-                            $("#SignUpForm").fadeOut("fast",function(){
-                                $("#SignUpForm").replaceWith(div);
-                                $('#subtopicForm').fadeIn("fast");
-                            });
-                        });
-                    }else if(result.status=="error"){
-                        alert(result.message);
-                    }
+$("#SignInButton").click(signUp);
+
+
+function signUp(){
+    $("#SignInButton").prop('onclick',null).off('click');
+    query={
+        username:$("#username").val(),
+        password:$("#password").val(),
+        passwordVal:$("#passwordVal").val(),
+        email:$("#email").val(),
+        code:$("#code").val()
+    };
+    $.post("/signup",query,function(result){
+        if(result.status=="ok"){
+
+            $.post("/loadSafe",{page:"verify"},function(div){ 
+                $("#SignUpForm").fadeOut("fast",function(){
+                    $("#SignUpForm").replaceWith(div);
+                    $('#loginFrom').fadeIn("fast");
                 });
+            });
 
-            }else if(result.status=="error"){
-                alert(result.message);
-            }
-        });
+        }else if(result.status=="error"){
+            $("#SignInButton").click(signUp);
+            alert(result.message);
+        }
     });
+}
 
-
+  
 </script>
