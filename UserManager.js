@@ -88,7 +88,8 @@ app.post('/signup', function (req,res) {
                 "username" : req.body.username,
                 "password" : sha1(req.body.password),
                 "email" : req.body.email,
-                "status" : key
+                "status" : key,
+                "dateCreated" : new Date()
             },'users',(response,error)=>{
                 if(error){
                     res.send({status:"error",message:"Username or email is taken!"});
