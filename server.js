@@ -38,6 +38,11 @@ mongoUtil = require('./DBConnection');
 mongoUtil.connectToServer( function( err ) { 
      console.log("connected to DB!");    
      dbm = require('./DBManager');
+     require('./routine.js')
+    //this lowers hotness, this should probably be in another place
+
+//console.log(d.getHours())
+
 });
 
 require('./contentCreation.js');
@@ -45,13 +50,11 @@ require('./SubtopicManager.js');
 require('./UserManager.js');
 
 
-
 app.get('/s/*/', function(req, res){
     url=req.originalUrl.substring(3);
     if(url=="")url="supertopic";
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
 })
-
 
 app.use('/images', express.static('Images'));
 app.use('/static', express.static('Static'));
