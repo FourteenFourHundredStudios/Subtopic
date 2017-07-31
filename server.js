@@ -1,9 +1,25 @@
 
+debug=true;
+
 express = require('express');
+https = require('https');
 http = require('http');
 app = express();
-server = http.createServer(app);
+
 fs = require('fs');
+
+if(!debug){
+    var options = {
+        key: fs.readFileSync('/etc/letsencrypt/live/subtopic.co/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/subtopic.co/cert.pem'),
+        "ca": fs.readFileSync("/etc/letsencrypt/live/subtopic.co/chain.pem")
+    };
+    server = https.createServer(options,app);
+}else{
+    server = http.createServer(app);
+}
+
+
 path = require('path');
 ejs = require('ejs');
 sha1 = require('sha1');
@@ -39,7 +55,7 @@ app.get('/s/*/', function(req, res){
 
 app.use('/images', express.static('Images'));
 app.use('/static', express.static('Static'));
-
+app.use('/', express.static('Static'));
 
 app.get('/', function (req, res) {
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query});
@@ -80,9 +96,31 @@ app.post('/loadSafe', function (req, res) {
     res.send(rendered);
 });
 
+/*
+const options = {
+  key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+  cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+};*/
 
-//ubuntu@ec2-
-server.listen(8090,'localhost',function(){
-    console.log('SubTopic listening on port 8090!')
-});
 
+if(!debug){
+    server.listen(443,'172.31.13.38',function(){
+        console.log('SubTopic started!')
+    });
+
+
+    var http = require('http');
+    http.createServer(function (req, res) {
+        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+        res.end();
+    }).listen(80);
+
+    //fix later, just to stop server from crashing
+    process.on('uncaughtException', function (err) {
+        console.error(err);
+    });
+}else{
+    server.listen(8000,'localhost',function(){
+        console.log('SubTopic debug started!')
+    });
+}
