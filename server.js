@@ -54,7 +54,8 @@ app.get('/s/*/', function(req, res){
     url=req.originalUrl.substring(3);
     if(url=="")url="supertopic";
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
-})
+});
+
 
 app.use('/images', express.static('Images'));
 app.use('/static', express.static('Static'));
@@ -78,6 +79,7 @@ app.get('/v', function (req, res) {
          }
      });
 });
+
 
 
 app.post('/load', function (req, res) {

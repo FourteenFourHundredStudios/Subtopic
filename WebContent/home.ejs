@@ -7,15 +7,17 @@
         <script type="text/javascript" src="/static/util.js"></script>
     </head>
     <body>
-  
-        <div style="margin:0px;top:5;left:0;width:100%;padding:0px;background-color:#42A5F5;position:fixed;">
-            <h1 style="padding:10px;color:white;padding:0px;padding-left:30px;float:left">[Subtopic]</h1>
-
+        <div style="margin:0px;top:5;left:0;width:100%;padding:0px;background-color:#42A5F5;position:fixed;max-height:100px">
+            <h1 class="clickable" onClick='loadSubtopic("#subtopicPane",{topic:"supertopic"},true);' style="padding:10px;color:white;padding:0px;padding-left:30px;float:left">[Subtopic]</h1>
             <h3 id="userFields" style="display:none;padding:10px;color:white;padding:0px;padding-right:30px;float:right;padding-top:5px">
                 <button class="button" style="color:white" onClick='loadSubtopic("#subtopicPane",{topic:"yourtopics"},true);'>My Subtopics</button>
-                <button class="button" style="color:white" onClick='loadSubtopic("#subtopicPane",{topic:"supertopic"},true);'>Supertopic</button>
+                <button class="button" id="notes" style="color:white" onClick="loadNotes()">Notifications</button>
                 <button class="button" style="color:white" onClick="logout()">Logout</button> 
-            </h3>     
+                <br>
+                 <div id="topPane"></div> 
+
+            </h3>
+               
         </div>
         <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:rgb(34,224,151);position:fixed;height:5px;"></div>
         <br><br><br><br>

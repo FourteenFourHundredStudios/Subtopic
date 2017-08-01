@@ -15,18 +15,36 @@ app.post('/post', function (req, res) {
                     }
                 }
             }
+            postId=sha1(Math.random());
             query={
                 username:user.username,
                 type:"text",
                 topic:req.body.topic,
                 body:req.body.body,
-                id:sha1(Math.random()),
+                id:postId,
                 linked:req.body.supertopic,
                 date:new Date(),
                 hotness: 0
             };
             dbm.insert(query,"subtopics",function(result){
                 res.send({status:"ok",message:result.ops[0].id});
+                res.end();
+            
+                //make sure connection is closed then send notification
+                dbm.getOne({id:req.body.supertopic},"subtopics",function(supertopic){
+                    if(supertopic){
+                        if(supertopic.username!=user.username){
+                            dbm.insert(
+                                {
+                                username:supertopic.username,
+                                message:user.username+" opened a Subtopic under your post",
+                                link:"loadSubtopic('#subtopicPane',{topic:'"+postId+"'},true);",
+                                date:new Date()
+                                },"notes",function(){});
+                        }
+                    }
+                });
+
             });
         }else{
             res.send({status:"error",message:"Invalid session ID"});
@@ -89,6 +107,22 @@ app.post('/postImage', function (req, res) {
 
         dbm.insert(query,"subtopics",function(result){
             res.end("ok");
+            res.end();
+
+            dbm.getOne({id:req.body.supertopic},"subtopics",function(supertopic){
+                if(supertopic){
+                    if(supertopic.username!=user.username){
+                        dbm.insert(
+                            {
+                            username:supertopic.username,
+                            message:user.username+" opened a Subtopic under your post",
+                            link:"loadSubtopic('#subtopicPane',{topic:'"+postId+"'},true);",
+                            date:new Date()
+                            },"notes",function(){});
+                    }
+                }
+            });
+
         });
     });
 });

@@ -50,6 +50,20 @@ a:hover {
     font-weight: bold;
 }
 
+
+.clickable{
+    border:none;
+    background-color:transparent;
+    color:#42A5F5;
+    font-weight: bold;
+}
+
+.clickable:hover{
+    cursor:pointer; 
+    color: rgb(44,244,171)!important;
+    
+}
+
 /* Cant change button color idk why*/
 .button:hover{
     cursor:pointer; 

@@ -112,3 +112,18 @@ app.post('/signup', function (req,res) {
 
     });
 });
+
+
+app.post('/notes', function (req, res) {
+     dbm.getOne({session:req.body.id},"users",function(user){
+        if(user){
+            dbm.db.collection("notes").find({username:user.username}).sort({date:-1}).toArray(function(error,notes){
+                file = fs.readFileSync(__dirname + '/WebContent/notes.ejs', 'UTF-8');
+                rendered = ejs.render(file, {req:req,notes:notes});
+                res.send(rendered);
+            });
+        }else{
+            res.send("Invalid Session ID");
+        }
+    });
+});

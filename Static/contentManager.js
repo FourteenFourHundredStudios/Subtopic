@@ -8,6 +8,7 @@ loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"hottopics"},false);
 
 
+
 if(getCookie("session").length!=0){
     $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
         $("#loginForm").fadeOut("fast",function(){
@@ -24,7 +25,11 @@ if(getCookie("session").length!=0){
     });
 }
 
-
+function loadNotes(){
+    $.post("/notes",{id:getCookie("session")},function(div){
+        $("#topPane").hide().html(div).show("slow");
+    });
+}
 
 function loadSubtopic(id,topic,active,e){
     $("html, body").animate({ scrollTop: 0 }, "fast");

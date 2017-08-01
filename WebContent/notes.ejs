@@ -1,0 +1,37 @@
+<div class="card" style="margin-top:0px;width:370px;max-height:30%">
+
+    <div class="cardBody" style="margin-top:0px;padding-top:0px;overflow:scroll;">
+        <h2 style="color:rgba(0,0,0,0.8);margin:10;margin-left:0px">Notifications</h2>
+        <hr>
+        <% if (notes.length > 0) { %>
+            <% notes.forEach(function(note){ %>
+                <div class="note" style="margin-top:0px;" onClick="<%=note.link%>">
+                    <h5 style="color:#42A5F5;margin:5px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;"><%=note.message%></h5>
+                </div>
+                <hr>
+            <% }); %>
+        <% }else{ %>
+            <br>
+            <h4 style='margin:0px;color:#42A5F5;'>You have no notifications :(</h4>
+        <% } %>
+    </div>
+</div>
+<br>
+
+
+<script type="text/javascript">
+
+    $(document).click(function() {
+        $("#topPane").hide("fast",function(){
+            $("#topPane").html("");
+            $(document).attr('onclick','').unbind('click');
+        });
+    });
+
+    $("#topPane").click(function(e) {
+        e.stopPropagation(); 
+        return false;     
+                     
+    });
+    
+</script>
