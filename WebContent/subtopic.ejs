@@ -47,7 +47,7 @@ id=(Math.random()+"").replace(".","")
                         <% if(topic.type=="text"){ %>
                             <% if(topic.body!=""){ %>
                                 <br>
-                                <%= topic.body %>
+                                <%= topic.body.replace("\n","<br>") %>
                             <% } %>
                         <%  } else if(topic.type=="image"){ %>
                             <br>
