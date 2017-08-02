@@ -122,6 +122,9 @@ app.post('/notes', function (req, res) {
                 rendered = ejs.render(file, {req:req,notes:notes});
                 res.send(rendered);
             });
+
+            io.to(req.body.id).emit("notes",{result:0});
+            dbm.update({username:user.username},{status:"read"},"notes",function(){});
         }else{
             res.send("Invalid Session ID");
         }

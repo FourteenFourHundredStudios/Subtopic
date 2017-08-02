@@ -19,6 +19,7 @@ if(!debug){
     server = http.createServer(app);
 }
 
+io = require('socket.io').listen(server);
 
 path = require('path');
 ejs = require('ejs');
@@ -41,7 +42,6 @@ mongoUtil.connectToServer( function( err ) {
      require('./routine.js')
     //this lowers hotness, this should probably be in another place
 
-//console.log(d.getHours())
 
 });
 
@@ -80,6 +80,26 @@ app.get('/v', function (req, res) {
      });
 });
 
+io.on('connection', function(socket){
+
+    socket.on('join', function(pathname) {
+        //console.log(pathname);
+        socket.join(pathname);
+    });
+
+    socket.on('noteGet', function(msg) {
+        dbm.getOne({session:msg.id},"users",function(user){	
+			if(user){
+				dbm.get({username:user.username,status:"unread"},"notes",function(notes){
+                    socket.emit("notes",{result:notes.length});
+                });
+			}else{
+				socket.emit("issue",{result:"invalid session"});
+			}
+		});
+    });
+
+});
 
 
 app.post('/load', function (req, res) {
@@ -100,12 +120,6 @@ app.post('/loadSafe', function (req, res) {
     rendered = ejs.render(file, req.body);
     res.send(rendered);
 });
-
-/*
-const options = {
-  key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
-  cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
-};*/
 
 
 if(!debug){
@@ -129,3 +143,4 @@ if(!debug){
         console.log('SubTopic debug started!')
     });
 }
+

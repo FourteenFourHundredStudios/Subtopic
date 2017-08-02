@@ -50,6 +50,9 @@ a:hover {
     font-weight: bold;
 }
 
+.button:focus {
+    outline:0;
+}
 
 .clickable{
     border:none;

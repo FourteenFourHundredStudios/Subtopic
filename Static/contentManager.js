@@ -1,4 +1,14 @@
+socket = io();
 
+socket.on('notes', function(msg){
+
+    if(msg.result>0){
+        
+        $("#notes").html("<span style='color:rgb(44,244,171)'>Notifications ("+msg.result+")</span>");
+    }else{
+        $("#notes").html("Notifications");
+    }
+});
 
 if(getUrlParameter("q")=="v"){
     alert("Your account has successfully been activated! Please sign in!")
@@ -30,6 +40,8 @@ function loadNotes(){
         $("#topPane").hide().html(div).show("slow");
     });
 }
+
+
 
 function loadSubtopic(id,topic,active,e){
     $("html, body").animate({ scrollTop: 0 }, "fast");

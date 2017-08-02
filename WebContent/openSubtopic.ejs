@@ -37,10 +37,16 @@
 
     loadSubtopic("#extraPane",{topic:"yourtopics"},false);
 
+    
+    
+
      $("#userFields").fadeIn();
 
     type="text";
     
+     socket.emit('noteGet', {id:getCookie("session")});
+     socket.emit('join',getCookie("session"));
+
     $("#postButton").click(function(){
         
         if(type=="image"){

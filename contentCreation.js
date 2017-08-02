@@ -30,20 +30,35 @@ app.post('/post', function (req, res) {
                 res.send({status:"ok",message:result.ops[0].id});
                 res.end();
             
+
+                //MAKE INTO SEPERATE FUNCTION THIS IS HUGE AND WILL DEF BE USED AGAIN
                 //make sure connection is closed then send notification
                 dbm.getOne({id:req.body.supertopic},"subtopics",function(supertopic){
                     if(supertopic){
                         if(supertopic.username!=user.username){
+                            
                             dbm.insert(
                                 {
+                                status:"unread",
                                 username:supertopic.username,
-                                message:user.username+" opened a Subtopic under your post",
+                                message:user.username+" opened a Subtopic in your post",
                                 link:"loadSubtopic('#subtopicPane',{topic:'"+postId+"'},true);",
                                 date:new Date()
-                                },"notes",function(){});
+                                },"notes",function(){
+
+                                     dbm.get({username:supertopic.username,status:"unread"},"notes",function(notes){
+                                         dbm.getOne({username:supertopic.username},"users",function(user){
+                                            io.to(user.session).emit("notes",{result:notes.length});
+                                         });
+                                     });
+
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+
+
+
 
             });
         }else{
@@ -109,19 +124,30 @@ app.post('/postImage', function (req, res) {
             res.end("ok");
             res.end();
 
-            dbm.getOne({id:req.body.supertopic},"subtopics",function(supertopic){
-                if(supertopic){
-                    if(supertopic.username!=user.username){
-                        dbm.insert(
-                            {
-                            username:supertopic.username,
-                            message:user.username+" opened a Subtopic under your post",
-                            link:"loadSubtopic('#subtopicPane',{topic:'"+postId+"'},true);",
-                            date:new Date()
-                            },"notes",function(){});
-                    }
-                }
-            });
+             dbm.getOne({id:req.body.supertopic},"subtopics",function(supertopic){
+                    if(supertopic){
+                        if(supertopic.username!=req.body.username){
+                            
+                            dbm.insert(
+                                {
+                                status:"unread",
+                                username:supertopic.username,
+                                message:req.body.username+" opened an Image Subtopic in your post",
+                                link:"loadSubtopic('#subtopicPane',{topic:'"+imgName+"'},true);",
+                                date:new Date()
+                                },"notes",function(){
+
+                                     dbm.get({username:supertopic.username,status:"unread"},"notes",function(notes){
+                                         dbm.getOne({username:supertopic.username},"users",function(user){
+                                            io.to(user.session).emit("notes",{result:notes.length});
+                                         });
+                                     });
+
+                                });
+                            }
+                        }
+                    });
+
 
         });
     });

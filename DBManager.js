@@ -60,7 +60,7 @@ exports.deleteOne=function(search,dbDocument,callback){
 };
 
 exports.update=function(search,value,dbDocument,callback){
-    db.collection(dbDocument).update(search, { $set:value} , function(err, result) {
+    db.collection(dbDocument).updateMany(search, { $set:value} , function(err, result) {
         callback(result,err);
     });
 }
