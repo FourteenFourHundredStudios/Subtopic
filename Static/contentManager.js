@@ -54,7 +54,7 @@ function loadSubtopic(id,topic,active,e){
         activeSubtopic=topic.topic;
         window.history.pushState("", "", "/s/"+topic.topic);
     }
-    $.post("/subtopic",topic,function(div){ //where you send id (delete this comment)
+    $.post("/subtopic",topic,function(div){
         $(id).fadeOut("fast",function(){
             $(id).html(div);
             $(id).fadeIn("fast");
