@@ -25,6 +25,33 @@ globalTopics={
         }
     },
 
+
+    everything:{
+        getTopics:function(req,callback){
+            getTopics({},req.topic.index,req.topic.count,{date : -1},function(data){
+                callback(data);
+            });
+        },
+        supertopic:{
+            id:"everything",
+            topic:"This is everything we have. Literally."
+        }
+    },
+
+     topic:{
+        getTopics:function(req,callback){
+            console.log(req.query.t);
+            console.log("fweofkewof");
+            getTopics({linked:"supertopic"},req.topic.index,1,{date : -1},function(data){
+                callback(data);
+            });
+        },
+        supertopic:{
+            id:"topic",
+            topic:""
+        }
+    },
+
     yourtopics:{
         getTopics:function(req,callback){
             if(req.body.userId.length!=0){
@@ -125,7 +152,7 @@ app.post('/subtopic', function (req, res) {
                 res.send(rendered);
             });
         }else{
-            res.send("<div style='' class='card cardBody CardContainer cardContent' ><div style='padding:10px'>This Subtopic does not exist! 🤔😭</div></div>");
+            res.send("<h1>Error: We have no idea what just happend</h1><div class='card cardBody CardContainer cardContent' ><div style='padding:10px'>This Subtopic does not exist! 🤔😭</div></div>");
         }
     });
 });

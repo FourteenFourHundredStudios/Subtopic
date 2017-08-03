@@ -10,12 +10,11 @@ if subtopic gets too long, do something with that [done]
 XSS Filter [done]
 cannot post totally empty Subtopics [done]
 "logout button" [done]
-
+daily backups
 
 not that important
 -------------------------
 if subtopic que gets too long do something with that 
-captcha / and or email validation
 deleting Subtopics [done]
 search
 organize posts by date posted [done]
@@ -28,17 +27,19 @@ specify where the subtopic you're creating is
 issues
 --------------------
 fix weird issue that happens if you're logged in @ 2 browsers
-fix issue where if 2 subtopics on the screen at the same time, and it gets deleted, only one collapse [done]
-
+fix issue where if 2 subtopics on the screen at the same time, and it gets deleted, only one collapses [done]
+fix issue where if you try to post in a global topic it breaks
+if subtopic has a perfect multiple of 7 it'll show unessary "show more" button
 
 THIRD RELEASE
 ------------------
-email verification 
-notifications
+email verification [done]
+notifications [done]
 search function
 links
 
 
 misc things
 -------------
-display number of subtopics in options instead of "view"
+replace "\n" with "<br>" on front end
+display number of subtopics in options instead of "view" [done]

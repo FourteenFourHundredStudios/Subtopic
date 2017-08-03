@@ -20,13 +20,13 @@ id=(Math.random()+"").replace(".","")
 
 <div class="card">
 
-    <div class="cardBody">
+    <div class="cardBody" style="">
     
      <% } %>
    
         <% if(topics.length>0){ %>
         
-            <% topics.forEach(function(topic){ %>
+            <% topics.forEach(function(topic,i){ %>
             
                 <div class="CardContainer" id="topic-<%=topic.id%>" onClick="loadOptions(this,'<%=topic.id%>')" >
                     <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
@@ -47,7 +47,7 @@ id=(Math.random()+"").replace(".","")
                         <% if(topic.type=="text"){ %>
                             <% if(topic.body!=""){ %>
                                 <br>
-                                <%= topic.body.replace("\n","<br>") %>
+                                <%= topic.body %>
                             <% } %>
                         <%  } else if(topic.type=="image"){ %>
                             <br>
@@ -55,14 +55,26 @@ id=(Math.random()+"").replace(".","")
                         <% } %>
                     </div>
                 
+                <% if(i!=topics.length-1){ %>
                      <hr>
+                <% } %>
+
                 </div>
                 
             <% }); %>
            
+           
+           <% 
+           //not the best way to do this because if it's a perfect multiple of 7 itll show unessary "show more button"
+           if(topics.length==7){ %>
+            <hr><br>
              <div style="margin:0px;padding:0px;" id="nextContent<%= id %>">
                 <center><button onClick="showMore('<%= supertopic.id %>','<%= id %>',<%=page %>)" class="button" style="color:rgb(34,224,151)">Show More</button></center>
             </div>
+        <% }else{ %>
+           
+        <% } %>
+
 
         <% }else{ %>
             Sorry, we're all out of content! 😭
@@ -70,7 +82,8 @@ id=(Math.random()+"").replace(".","")
 
         
 
-<% if(req.body.nobody===undefined){ %>
+<% 
+if(req.body.nobody===undefined){ %>
     </div>
 
 </div>

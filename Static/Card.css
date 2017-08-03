@@ -30,6 +30,7 @@
 }
 
 .cardContent{
+    word-wrap: break-word;
     overflow: auto;
     margin: 0px;
     padding: 0px;

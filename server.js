@@ -50,11 +50,17 @@ require('./SubtopicManager.js');
 require('./UserManager.js');
 
 
-app.get('/s/*/', function(req, res){
-    url=req.originalUrl.substring(3);
+
+app.get('/s/:url/:suburl?/', function(req, res){
+    //url=req.originalUrl.substring(3);
+    url=req.params["url"];
     if(url=="")url="supertopic";
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
 });
+
+
+
+
 
 
 app.use('/images', express.static('Images'));
@@ -83,7 +89,6 @@ app.get('/v', function (req, res) {
 io.on('connection', function(socket){
 
     socket.on('join', function(pathname) {
-        //console.log(pathname);
         socket.join(pathname);
     });
 
