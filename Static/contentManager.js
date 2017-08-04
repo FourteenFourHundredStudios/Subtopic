@@ -1,9 +1,9 @@
+
+
 socket = io();
 
 socket.on('notes', function(msg){
-
     if(msg.result>0){
-        
         $("#notes").html("<span style='color:rgb(44,244,171)'>Notifications ("+msg.result+")</span>");
     }else{
         $("#notes").html("Notifications");
@@ -18,6 +18,9 @@ loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"hottopics"},false);
 
 
+//TESTING
+    
+//TESTING
 
 if(getCookie("session").length!=0){
     $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
@@ -50,16 +53,29 @@ function loadSubtopic(id,topic,active,e){
         e.preventDefault();
         e.stopPropagation();
     }
-    if(active){
-        activeSubtopic=topic.topic;
-        window.history.pushState("", "", "/s/"+topic.topic);
-    }
+  
     $.post("/subtopic",topic,function(div){
         $(id).fadeOut("fast",function(){
             $(id).html(div);
             $(id).fadeIn("fast");
         });
     });
+
+    if(active){
+        activeSubtopic=topic.topic;
+        window.history.pushState("", "", "/s/"+topic.topic);
+
+
+        //alert(topic.topic);
+        $.post("/subtopic/"+activeSubtopic,{topic:"topic"},function(div){
+            $("#supertopicPane").fadeOut("fast",function(){
+                $("#supertopicPane").html(div);
+                $("#supertopicPane").fadeIn("fast");
+            });
+        });
+
+    }
+
 }
 
 
@@ -80,7 +96,7 @@ function showMore(topic,id,page){
 function loadOptions(div,id){  
     if($('#optionsPane').length==0){
         $.post("/options",{id:getCookie("session"),topicId:id},function(options){
-            $(options).insertBefore($(div).find("hr")).hide().show('fast');
+            $(options).insertBefore($(div).find("here")).hide().show('fast');
         });   
     }else{
          if($(div).find("#optionsPane").length>0){
@@ -92,7 +108,7 @@ function loadOptions(div,id){
          $("#optionsPane").hide("fast",function(){
             $("#optionsPane").remove();
             $.post("/options",{id:getCookie("session"),topicId:id},function(options){
-                $(options).insertBefore($(div).find("hr")).hide().show('fast');
+                $(options).insertBefore($(div).find("here")).hide().show('fast');
             });
         });
     }
@@ -118,5 +134,7 @@ function deleteSubtopic(id,e){
                 alert(results);
             }
         });
+    }else{
+        console.log("Subtopic "+id+" thanks you for saving it's life");
     }
 }

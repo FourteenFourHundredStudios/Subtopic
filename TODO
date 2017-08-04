@@ -23,7 +23,6 @@ some type of "like" system
 specify where the subtopic you're creating is
 
 
-
 issues
 --------------------
 fix weird issue that happens if you're logged in @ 2 browsers
@@ -37,7 +36,7 @@ email verification [done]
 notifications [done]
 search function
 links
-
+implement settings file a few directories up for things like debug and db path, etc.
 
 misc things
 -------------

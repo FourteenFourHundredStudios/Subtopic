@@ -52,7 +52,6 @@ require('./UserManager.js');
 
 
 app.get('/s/:url/:suburl?/', function(req, res){
-    //url=req.originalUrl.substring(3);
     url=req.params["url"];
     if(url=="")url="supertopic";
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});

@@ -15,32 +15,30 @@
                 <button class="button" id="notes" style="color:white" onClick="loadNotes()">Notifications</button>
                 <button class="button" style="color:white" onClick="logout()">Logout</button> 
                 <br>
-                 <div id="topPane"></div> 
-
+                <div id="topPane"></div> 
             </h3>
-               
         </div>
         <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:rgb(34,224,151);position:fixed;height:5px;"></div>
         <br><br><br><br>
         <div style="padding:30px">
             <div id="leftPane" style="float:left;width:30%"> 
-                <div id="loginForm"></div><br><br>
-                <div id="suggestionPane"></div><br><br>
+                <div id="loginForm"></div><br>
+                <div id="supertopicPane"></div><br>
+                <div id="suggestionPane"></div><br>
                 <br><br>
             </div>
-            <div id="rightPane" style="float:left;width:65%;margin-left:5%">        
-                <div id="subtopicPane"></div><br><br>
-                <div id="extraPane"></div><br><br>
+            <div id="rightPane" style="float:left;width:65%;margin-left:5%">       
+                <div id="subtopicPane"></div><br>
+                <div id="extraPane"></div><br>
             </div>
         </div>
     </body>
 </html>
 <script type="text/javascript">
     topic="supertopic"
-</script>
- <% if(typeof domain != 'undefined'){ %>
-    <script type="text/javascript">
+     <% if(typeof domain != 'undefined'){ %>
         topic='<%= domain%>';
-    </script>
-<% } %>
+    <% } %>
+</script>
+
 <script type="text/javascript" src="/static/contentManager.js"></script>

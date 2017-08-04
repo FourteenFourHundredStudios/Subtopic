@@ -8,7 +8,7 @@ globalTopics={
         },
         supertopic:{
             id:"supertopic",
-            topic:"Supertopic"
+            topic:"Master Supertopic"
         }
     },
 
@@ -39,16 +39,10 @@ globalTopics={
     },
 
      topic:{
-        getTopics:function(req,callback){
-            console.log(req.query.t);
-            console.log("fweofkewof");
-            getTopics({linked:"supertopic"},req.topic.index,1,{date : -1},function(data){
-                callback(data);
-            });
-        },
+        getTopics:function(req,callback){},
         supertopic:{
             id:"topic",
-            topic:""
+            topic:"Supertopic"
         }
     },
 
@@ -73,15 +67,31 @@ globalTopics={
 }
 
 function getSubtopics(req,callback){
-    if(globalTopics[req.body.topic]==undefined){
+
+
+
+   if(req.params["param"]!=undefined){
+        dbm.db.collection("subtopics").findOne({id:req.params["param"]},function(err, topic) {
+            //sconsole.log(topic);
+            if(topic){
+                a=[];
+                a.push(topic);
+                callback(null,req,a); 
+            }else{
+                callback(null,req,[]); 
+            }        
+        });
+    }else if(globalTopics[req.body.topic]==undefined){
         getTopics({linked:req.body.topic},req.topic.index,req.topic.count,{date:-1},function(data){
             callback(null,req,data);
         });
-    }else{
+    }else if(globalTopics[req.body.topic]!=undefined){
         globalTopics[req.body.topic].getTopics(req,function(subtopics){
             callback(null,req,subtopics);
         });
         
+    }else{
+         callback(null,req,[]);
     }
 }
 
@@ -107,6 +117,7 @@ function getQue(req,subtopics,supertopic,callback){
 }
 
 function handleParams(req,callback){
+    
     req.topic={};
     req.topic.index=0;
     req.topic.count=7;
@@ -114,6 +125,7 @@ function handleParams(req,callback){
         req.topic.index=parseInt(req.body.index);
     }
     callback(null,req);
+    dbm.db.collection("subtopics").update({id: req.body.topic },{ $inc: { hotness: 1} })
 }
 
 app.post('/options', function (req, res) {
@@ -128,10 +140,9 @@ app.post('/options', function (req, res) {
     });
 });
 
-app.post('/subtopic', function (req, res) {
+app.post('/subtopic/:param?', function (req, res) {
     //NOT EFFICENT, MARC
 
-    dbm.db.collection("subtopics").update({id: req.body.topic },{ $inc: { hotness: 1} })
 
     dbm.getOne({id:req.body.topic},"subtopics",function(subtopic){
         if( subtopic || globalTopics[req.body.topic]!=undefined ){
