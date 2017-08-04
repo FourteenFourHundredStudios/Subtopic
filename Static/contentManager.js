@@ -67,7 +67,7 @@ function loadSubtopic(id,topic,active,e){
 
 
         //alert(topic.topic);
-        $.post("/subtopic/"+activeSubtopic,{topic:"topic"},function(div){
+        $.post("/subtopic/"+activeSubtopic,{topic:"topic",notitle:true},function(div){
             $("#supertopicPane").fadeOut("fast",function(){
                 $("#supertopicPane").html(div);
                 $("#supertopicPane").fadeIn("fast");

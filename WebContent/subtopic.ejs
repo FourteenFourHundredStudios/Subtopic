@@ -5,21 +5,21 @@ id=(Math.random()+"").replace(".","")
 
 <% if(req.body.nobody===undefined){ %>
 
-                     
 
-<div style="width:100%;margin-bottom:0px;">
-    <h1 style="display: inline-block;"><%= supertopic.topic%> </h1>
+<% if(req.body.notitle===undefined){ %>
 
-    <% que.forEach(function(subtopic){ %>
-        < <span class="topicQueLink" onClick="loadSubtopic('#subtopicPane',{topic:'<%= subtopic.id %>'},true);">
-            <%= subtopic.topic %>
-          </span>
-    <% }); %>
+    <div style="width:100%;margin-bottom:0px;">
+        <h1 style="display: inline-block;"><%= supertopic.topic%> </h1>
 
-</div>
+        <% que.forEach(function(subtopic){ %>
+            < <span class="topicQueLink" onClick="loadSubtopic('#subtopicPane',{topic:'<%= subtopic.id %>'},true);">
+                <%= subtopic.topic %>
+            </span>
+        <% }); %>
 
+    </div>
 
-
+<% } %>
 
 <div class="card">
 
