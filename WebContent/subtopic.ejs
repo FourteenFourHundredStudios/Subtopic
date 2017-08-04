@@ -9,7 +9,7 @@ id=(Math.random()+"").replace(".","")
 <% if(req.body.nobody===undefined){ %>
 
 
-<% if(req.body.notitle===undefined){ %>
+
 
     <div style="width:100%;margin-bottom:0px;">
         <h1 style="display: inline-block;"><%= supertopic.topic%> </h1>
@@ -22,7 +22,7 @@ id=(Math.random()+"").replace(".","")
 
     </div>
 
-<% } %>
+
 
 <div class="card">
 
@@ -35,11 +35,20 @@ id=(Math.random()+"").replace(".","")
             <% topics.forEach(function(topic,i){ %>
             
                 <div class="CardContainer" id="topic-<%=topic.id%>" onClick="loadOptions(this,'<%=topic.id%>')" >
-                    <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
-                        <%= topic.topic %> 
-                    </a>
-                    <br>
-                    <span class="smallText">posted by 
+                    
+                    <% if(req.body.notitle===undefined){ %>
+                        <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
+                            <%= topic.topic %> 
+                        </a>
+                        <br>
+                    <% } else {%>
+                         <a style="color:#d1eaff" onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
+                            <i style="color:#8ccaff">[Subcomment]</i>
+                        </a>
+                        <br>
+                    <% } %>
+
+                    <span class="smallText" style="">posted by 
                         <% if( topic.username!="marc" && topic.username!="subtopic" && topic.username!="adam"){ %>
                             <%= topic.username %>
                         <% }else{ %>

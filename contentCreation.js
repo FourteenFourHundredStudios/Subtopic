@@ -2,10 +2,15 @@
 
 //eventually change the 'linked' field to supertopic? idk.
 app.post('/post', function (req, res) {
+
+   
+
     if(req.body.topic.length<5){
         res.send({status:"error",message:"Topic must be at least 5 characters!"});
         return;
     }
+
+
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
             for (var key in req.body) {

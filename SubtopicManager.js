@@ -67,12 +67,8 @@ globalTopics={
 }
 
 function getSubtopics(req,callback){
-
-
-
    if(req.params["param"]!=undefined){
         dbm.db.collection("subtopics").findOne({id:req.params["param"]},function(err, topic) {
-            //sconsole.log(topic);
             if(topic){
                 a=[];
                 a.push(topic);
@@ -82,7 +78,14 @@ function getSubtopics(req,callback){
             }        
         });
     }else if(globalTopics[req.body.topic]==undefined){
-        getTopics({linked:req.body.topic},req.topic.index,req.topic.count,{date:-1},function(data){
+        query={linked:req.body.topic};
+        if(req.body.subcomments!=undefined){
+            query={
+                linked:req.body.topic,
+                topic:"<subcomment>"
+            };
+        }
+        getTopics(query,req.topic.index,req.topic.count,{date:-1},function(data){
             callback(null,req,data);
         });
     }else if(globalTopics[req.body.topic]!=undefined){
@@ -174,6 +177,7 @@ function getTopics(search,index,count,sort,callback){
         callback(result);
     });
 }
+
 
 function getLinkQue(id,callback){
     que=[];
