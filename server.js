@@ -50,7 +50,7 @@ mongoUtil.connectToServer( function( err ){
 require('./contentCreation.js');
 require('./SubtopicManager.js');
 require('./UserManager.js');
-
+require('./Admin/routers.js')
 
 
 app.get('/s/:url/:suburl?/', function(req, res){
