@@ -36,12 +36,11 @@ app.use(bodyParser.json())
 
 
 mongoUtil = require('./DBConnection');
-mongoUtil.connectToServer( function( err ) { 
+mongoUtil.connectToServer( function( err ){
      console.log("connected to DB!");    
      dbm = require('./DBManager');
      require('./routine.js')
     //this lowers hotness, this should probably be in another place
-
 
 });
 
@@ -56,11 +55,6 @@ app.get('/s/:url/:suburl?/', function(req, res){
     if(url=="")url="supertopic";
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
 });
-
-
-
-
-
 
 app.use('/images', express.static('Images'));
 app.use('/static', express.static('Static'));
@@ -105,7 +99,6 @@ io.on('connection', function(socket){
 
 });
 
-
 app.post('/load', function (req, res) {
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
@@ -119,7 +112,6 @@ app.post('/load', function (req, res) {
 });
 
 app.post('/loadSafe', function (req, res) {
-
     file = fs.readFileSync(__dirname + '/WebContent/safe/'+req.body.page+'.ejs', 'UTF-8');
     rendered = ejs.render(file, req.body);
     res.send(rendered);
