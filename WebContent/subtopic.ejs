@@ -34,9 +34,9 @@ id=(Math.random()+"").replace(".","")
 
             <% topics.forEach(function(topic,i){ %>
             
-                <div class="CardContainer" id="topic-<%=topic.id%>" onClick="loadOptions(this,'<%=topic.id%>')" >
+                <div class="CardContainer" id="topic-<%=topic.id%>" onClick="loadOptions(this,'<%=topic.id%>',event)" >
                     
-                    <% if(req.body.notitle===undefined){ %>
+                    <% if(req.body.notitle===undefined && topic.topic!="<subcomment>"){ %>
                         <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
                             <%= topic.topic %> 
                         </a>

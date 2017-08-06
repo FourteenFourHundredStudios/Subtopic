@@ -14,7 +14,7 @@ if(getUrlParameter("q")=="v"){
     alert("Your account has successfully been activated! Please sign in!")
 }
 
-loadSubtopic("#subtopicPane",{topic:topic,subcomments:true},true);
+loadSubtopic("#subtopicPane",{topic:topic},true);
 loadSubtopic("#suggestionPane",{topic:"hottopics"},false);
 
 
@@ -96,7 +96,11 @@ function showMore(topic,id,page){
     });
 }
 
-function loadOptions(div,id){  
+function loadOptions(div,id,e){ 
+    //e.preventDefault();
+    //e.stopPropagation();
+
+
     if($('#optionsPane').length==0){
         $.post("/options",{id:getCookie("session"),topicId:id},function(options){
             $(options).insertBefore($(div).find("here")).hide().show('fast');
@@ -115,6 +119,7 @@ function loadOptions(div,id){
             });
         });
     }
+    
 }
 
 function hideSubtopic(id,e){

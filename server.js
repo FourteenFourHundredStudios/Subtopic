@@ -3,6 +3,7 @@
 
 require('../Settings.js');
 
+
 express = require('express');
 https = require('https');
 http = require('http');
@@ -64,7 +65,7 @@ app.get('/s/:url/:suburl?/', function(req, res){
 
 
 
-app.use('/images', express.static('Images'));
+app.use('/images', express.static('../Images'));
 app.use('/static', express.static('Static'));
 app.use('/', express.static('Static'));
 

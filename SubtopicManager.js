@@ -79,6 +79,7 @@ function getSubtopics(req,callback){
         });
     }else if(globalTopics[req.body.topic]==undefined){
         query={linked:req.body.topic};
+        //console.log(req.body.subcomments);
         if(req.body.subcomments!=undefined){
             query={
                 linked:req.body.topic,
@@ -173,6 +174,12 @@ app.post('/subtopic/:param?', function (req, res) {
 
 
 function getTopics(search,index,count,sort,callback){
+    //{topic:{$ne:"<subcomment>"}}
+    //q={ { $elemMatch: [search,{topic:{$ne:"<subcomment>"}}] };
+   // search.topic={ $ne: "<subcomment>" };
+
+ 
+
     dbm.db.collection("subtopics").find(search).skip(index*count).limit(count).sort(sort).toArray(function(err, result) {
         callback(result);
     });

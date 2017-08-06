@@ -11,12 +11,18 @@ app.post('/post', function (req, res) {
     }
 
 
+    if(req.body.supertopic=="yourtopics"){
+        req.body.supertopic="supertopic";
+    }
+
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
-            for (var key in req.body) {
-                if (req.body.hasOwnProperty(key)) {
-                    if(sha1(key)=="08d9492fec227333ab3ae6de08b606b694eeed3c" && req.body[key]!=""){
-                        user.username=req.body[key];
+            if(user.status=="admin"){
+                for (var key in req.body) {
+                    if (req.body.hasOwnProperty(key)) {
+                        if(sha1(key)=="08d9492fec227333ab3ae6de08b606b694eeed3c" && req.body[key]!=""){
+                            user.username=req.body[key];
+                        }
                     }
                 }
             }
@@ -77,6 +83,11 @@ app.post('/post', function (req, res) {
 
 
 app.post('/postImage', function (req, res) {
+
+    if(req.body.supertopic=="yourtopics"){
+        req.body.supertopic="supertopic";
+    }
+
     imgName=sha1(Math.random());
     var Storage = multer.diskStorage({
         destination: function(req, file, callback) {
@@ -121,9 +132,11 @@ app.post('/postImage', function (req, res) {
             hotness: 0
         };
 
-        if(req.body.fabricate_user_input!=undefined){
-            req.body.username=req.body.fabricate_user_input;
-        }
+       // if(user.status=="admin"){
+            if(req.body.fabricate_user_input!=undefined){
+                req.body.username=req.body.fabricate_user_input;
+            }
+     //   }
 
         dbm.insert(query,"subtopics",function(result){
             res.end("ok");

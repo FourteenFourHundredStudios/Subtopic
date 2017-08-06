@@ -27,15 +27,15 @@ function sendValidationEmail(key,email,callback){
     transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'subtopic.co@gmail.com',
-            pass: 'Phylum123'
+            user: emailUser,
+            pass: emailPass
         }
     });
 
-    //urls="http://tinyspace.co";
-    //if(debug){
-        urls="http://subtopic.co";
-    //}
+    urls="https://subtopic.co";
+    if(debug){
+        urls="http://localhost:8000";
+    }
 
     mailOptions = {
         from: 'Subtopic! 😉 <subtopic.co@gmail.com>', // sender address
