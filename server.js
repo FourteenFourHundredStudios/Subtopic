@@ -1,5 +1,7 @@
 
-debug=true;
+
+
+require('../Settings.js');
 
 express = require('express');
 https = require('https');
