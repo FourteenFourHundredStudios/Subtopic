@@ -8,7 +8,7 @@ function lowerhotness(){
     console.log(Date())
     let d = new Date()
     d.setDate(d.getDate()-2)//this gets everything created more than 2 days ago
-    dbm.db.collection("subtopics").update({"date" : { $lt : d }},{ $mul: { hotness: .75} })// THIS WORKS
+    dbm.db.collection("subtopics").updateMany({"date" : { $lt : d }},{ $mul: { hotness: .75} })// THIS WORKS
     /* this does not work, it was a attempt at truncation
     dbm.db.collection("subtopics").aggregate([
         { $match: { "date" : { $lt : d } } },

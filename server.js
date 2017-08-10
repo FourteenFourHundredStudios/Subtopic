@@ -43,6 +43,7 @@ mongoUtil.connectToServer( function( err ){
      console.log("connected to DB!");    
      dbm = require('./DBManager');
      require('./routine.js')
+    require('./Admin/adminrouters.js') //move to below require usermanager later
     //this lowers hotness, this should probably be in another place
 
 });
@@ -50,7 +51,7 @@ mongoUtil.connectToServer( function( err ){
 require('./contentCreation.js');
 require('./SubtopicManager.js');
 require('./UserManager.js');
-require('./Admin/routers.js')
+//require('./Admin/adminrouters.js')
 
 
 app.get('/s/:url/:suburl?/', function(req, res){

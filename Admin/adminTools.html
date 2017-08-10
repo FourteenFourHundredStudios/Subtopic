@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<form id="myForm">
+    subject:<br>
+    <input type="text" name="txtJob" id="subject" value="">
+    <br>
+    message body:<br>
+    <textarea rows="4" cols="50" id="message">
+
+</textarea>
+</form>
+
+    <br><br>
+    <button onclick="sendMessage();">Submit</button>
+    </form>
+</body>
+</html>
+
+<script type="text/javascript">
+    function sendMessage() {
+        console.log(document.getElementById('subject').value)
+        $.post("/sendMassEmail", {
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        }, function (div) {
+            console.log('message sent')
+        });
+
+    }
+</script>
