@@ -173,6 +173,33 @@ app.post('/subtopic/:param?', function (req, res) {
 });
 
 
+
+app.post('/subtopicVue/', function (req, res) {
+    dbm.getOne({id:req.body.topic},"subtopics",function(subtopic){
+        if( subtopic || globalTopics[req.body.topic]!=undefined ){
+            async.waterfall([
+                async.apply(handleParams, req), 
+                getSubtopics,
+                getSupertopic,
+                getQue
+            ], function (err,req,subtopics,supertopic,que) {
+                info = {
+                    que:que,
+                    page:req.topic.index,
+                   // req:req,
+                    supertopic:supertopic,
+                    topics:subtopics
+                };
+                res.send(info);
+            });
+        }else{
+            res.send("<h1>Error: We have no idea what just happend</h1><div class='card cardBody CardContainer cardContent' ><div style='padding:10px'>This Subtopic does not exist! 🤔😭</div></div>");
+        }
+    });
+});
+
+
+
 function getTopics(search,index,count,sort,callback){
     //{topic:{$ne:"<subcomment>"}}
     //q={ { $elemMatch: [search,{topic:{$ne:"<subcomment>"}}] };
