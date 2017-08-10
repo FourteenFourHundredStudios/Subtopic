@@ -50,6 +50,9 @@ function subComment(url,e){
 }
 
 function loadSubtopic(id,topic,active,e){
+
+   //  console.log(query);
+
     $("html, body").animate({ scrollTop: 0 }, "fast");
     if(getCookie("session")!=undefined)topic["userId"]=getCookie("session");
     if(e!=undefined){
@@ -58,6 +61,7 @@ function loadSubtopic(id,topic,active,e){
     }
   
     $.post("/subtopic",topic,function(div){
+        console.log(topic);
         $(id).fadeOut("fast",function(){
             $(id).html(div);
             $(id).fadeIn("fast");
@@ -92,6 +96,7 @@ function showMore(topic,id,page){
     query={topic:topic,index:page+1,nobody:true};
     if(getCookie("session")!=undefined)query["userId"]=getCookie("session");
     $.post("/subtopic",query,function(content){
+       
         $("#nextContent"+id).replaceWith(content);
     });
 }
