@@ -84,6 +84,7 @@ app.get('/v', function (req, res) {
      });
 });
 
+
 io.on('connection', function(socket){
 
     socket.on('join', function(pathname) {
@@ -145,3 +146,6 @@ if(!debug){
     });
 }
 
+//const Vue = require('vue')
+//const server = require('express')()
+// const renderer = require('vue-server-renderer').createRenderer()
