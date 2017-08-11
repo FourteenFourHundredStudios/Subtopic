@@ -5,38 +5,34 @@
 
 
 
-<div id="app" style="padding:15px;width:30%;">
+<div id="app" style="padding:15px;float:left">
 
-    <subtopic url="supertopic"></subtopic>
-
+    <subtopic id="supertopic" style="width:30%"></subtopic>
+    <subtopic id="hottopics" style="width:30%"></subtopic>
 </div>
-
-
-
 
 <script type="text/javascript">
 
     Vue.component('subtopic', {
         template: `
         <div>
-            <div style="width:100%;margin-bottom:0px;text-overflow: ellipsis;">
+            <div style="width:100%;margin-bottom:0px;">
                 <h1 style="display: inline-block;">{{ supertopic.topic }} </h1>
             </div>
             <div class="card">
                 <div class="cardBody" style="">
                     <div v-for="topic in subtopics" class="CardContainer" id="" onClick="loadOptions(this,'<%=topic.id%>',event)" >
-                        <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
+                        <a v-on:click="loadSubtopic"> 
                             {{ topic.topic }}
                         </a>
-                            <div class="cardContent" v-if="topic.type=='text'">
-                                {{ topic.body }}
-                            </div>
+                        <div class="cardContent" v-if="topic.type=='text'">
+                            {{ topic.body }}
+                        </div>
 
-                            <div class="cardContent" v-else-if="topic.type=='image'">
-                                <br>
-                              
-                                <img v-bind:src=" '/images/' + topic.body + '.png' ">
-                            </div>
+                        <div class="cardContent" v-else-if="topic.type=='image'">
+                            <br>
+                            <img v-bind:src=" '/images/' + topic.body + '.png' ">
+                        </div>
                         
                         <hr>
                     </div>
@@ -46,13 +42,12 @@
         </div>
         `,
 
-        props: ['url'],
+        props: ['id'],
 
         data: function(){
             return {
                 subtopics: [],
                 supertopic: {topic:"loading..."},
-                test:"dewdwde",
                 topicURL:null,
                 page:0,
             }
@@ -61,14 +56,21 @@
         methods: {
             loadComments: function () {
                 this.page++;
-                $.post("/api/subtopic",{topic:this.url,index:this.page},function(data){
+                $.post("/api/subtopic",{topic:this.id,index:this.page},function(data){
                     this.subtopics=this.subtopics.concat(data.topics);
+                }.bind(this));
+            },
+            loadSubtopic: function () {
+                this.page=0;
+                $.post("/api/subtopic",{topic:this.id},function(data){
+                    this.subtopics=data.topics;
+                    this.supertopic=data.supertopic;
                 }.bind(this));
             }
         },
 
         created: function() {
-           $.post("/api/subtopic",{topic:this.url},function(data){
+           $.post("/api/subtopic",{topic:this.id},function(data){
                 this.subtopics=data.topics;
                 this.supertopic=data.supertopic;
             }.bind(this));

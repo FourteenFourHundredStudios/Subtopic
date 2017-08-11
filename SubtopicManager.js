@@ -186,7 +186,6 @@ app.post('/api/subtopic/', function (req, res) {
                 info = {
                     que:que,
                     page:req.topic.index,
-                   // req:req,
                     supertopic:supertopic,
                     topics:subtopics
                 };
