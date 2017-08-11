@@ -174,7 +174,7 @@ app.post('/subtopic/:param?', function (req, res) {
 
 
 
-app.post('/subtopicVue/', function (req, res) {
+app.post('/api/subtopic/', function (req, res) {
     dbm.getOne({id:req.body.topic},"subtopics",function(subtopic){
         if( subtopic || globalTopics[req.body.topic]!=undefined ){
             async.waterfall([
