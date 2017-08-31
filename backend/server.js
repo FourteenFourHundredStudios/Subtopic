@@ -1,7 +1,7 @@
 
 
 
-require('../Settings.js');
+require('../../Settings.js');
 
 
 express = require('express');
@@ -43,7 +43,7 @@ mongoUtil.connectToServer( function( err ){
      console.log("connected to DB!");    
      dbm = require('./DBManager');
      require('./routine.js')
-    require('./Admin/adminrouters.js') //move to below require usermanager later
+    require('../Admin/adminrouters.js') //move to below require usermanager later
     //this lowers hotness, this should probably be in another place
 
 });
@@ -54,12 +54,13 @@ require('./UserManager.js');
 //require('./Admin/adminrouters.js')
 
 
+/*
 app.get('/s/:url/:suburl?/', function(req, res){
     url=req.params["url"];
     if(url=="")url="supertopic";
     res.render(path.join(__dirname, 'WebContent/home.ejs'),{query : req.query,domain:url});
 });
-
+*/
 
 app.use('/images', express.static('../Images'));
 app.use('/static', express.static('Static'));
@@ -105,6 +106,8 @@ io.on('connection', function(socket){
 
 });
 
+/*
+
 app.post('/load', function (req, res) {
     dbm.getOne({session:req.body.id},"users",function(user){
         if(user){
@@ -121,7 +124,7 @@ app.post('/loadSafe', function (req, res) {
     file = fs.readFileSync(__dirname + '/WebContent/safe/'+req.body.page+'.ejs', 'UTF-8');
     rendered = ejs.render(file, req.body);
     res.send(rendered);
-});
+});*/
 
 
 if(!debug){
@@ -147,49 +150,4 @@ if(!debug){
     });
 }
 
-const Vue = require('vue')
-const renderer = require('vue-server-renderer').createRenderer()
 
-
-
-const st = require('./Static/Vue/subtopic.js');
-const stComp = Vue.extend(st);
-
-Vue.component('subtopic', stComp);
-
-
-app.get('/apple', (req, res) => {
- //  console.log("daewfweopfjweopjf");
-  const apps = new Vue({
-    data: {
-      url: req.url
-    },
-    template: `
-            <div>
-            
-                The visited URL is: {{ url }}  
-                <subtopic id="supertopic"></subtopic>
-            
-            </div>
-            
-            
-            `
-  })
-
-  renderer.renderToString(apps, (err, html) => {
-    if (err) {
-        console.log(err);
-      res.status(500).end('Internal Server Error')
-      return
-    }
-    res.end(`
-      <!DOCTYPE html>
-      <html lang="en">
-        
-        <head><title>Hello</title></head>
-        <body>${html}</body>
-      </html>
-    `)
-  })
-
-});

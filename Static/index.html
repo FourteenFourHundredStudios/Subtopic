@@ -1,20 +1,15 @@
-<script src="/static/vue.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/Card.css"/>
-<link rel="stylesheet" type="text/css" href="/static/Elements.css"/>
-<script src="/static/jquery.js"></script>
+<script src="/static/lib/vue.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/Card.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/Elements.css"/>
+<script src="/static/lib/jquery.js"></script>
 
 <style>
-
     .fade-enter-active, .fade-leave-active {
         transition: opacity 0.2s
     }
-
-
-    
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    .fade-enter, .fade-leave-to{
         opacity: 0;
     }
-
 </style>
 
 
@@ -36,7 +31,7 @@
                             {{ topic.topic }}
                         </a>
 
-                        <br><span class="smallText" style="">posted by {{topic.username}}</span><br>
+                        <br><span class="smallText" >posted by {{topic.username}}</span><br>
 
                         <div class="cardContent" v-if="topic.body.length==0"></div>
 
@@ -50,6 +45,10 @@
                             <br>
                             <img v-bind:src=" '/images/' + topic.body + '.png' "><br>
                         </div> 
+
+                        <div>
+                            
+                        </div>
 
                         <hr> 
                     </div>      
