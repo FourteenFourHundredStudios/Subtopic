@@ -141,11 +141,55 @@ if(!debug){
         console.error(err);
     });
 }else{
+    
     server.listen(8000,'localhost',function(){
         console.log('SubTopic debug started!')
     });
 }
 
-//const Vue = require('vue')
-//const server = require('express')()
-// const renderer = require('vue-server-renderer').createRenderer()
+const Vue = require('vue')
+const renderer = require('vue-server-renderer').createRenderer()
+
+
+
+const st = require('./Static/Vue/subtopic.js');
+const stComp = Vue.extend(st);
+
+Vue.component('subtopic', stComp);
+
+
+app.get('/apple', (req, res) => {
+ //  console.log("daewfweopfjweopjf");
+  const apps = new Vue({
+    data: {
+      url: req.url
+    },
+    template: `
+            <div>
+            
+                The visited URL is: {{ url }}  
+                <subtopic id="supertopic"></subtopic>
+            
+            </div>
+            
+            
+            `
+  })
+
+  renderer.renderToString(apps, (err, html) => {
+    if (err) {
+        console.log(err);
+      res.status(500).end('Internal Server Error')
+      return
+    }
+    res.end(`
+      <!DOCTYPE html>
+      <html lang="en">
+        
+        <head><title>Hello</title></head>
+        <body>${html}</body>
+      </html>
+    `)
+  })
+
+});

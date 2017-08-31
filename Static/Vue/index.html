@@ -1,79 +1,127 @@
-<script src="https://unpkg.com/vue"></script>
+<script src="/static/vue.js"></script>
 <link rel="stylesheet" type="text/css" href="/static/Card.css"/>
 <link rel="stylesheet" type="text/css" href="/static/Elements.css"/>
 <script src="/static/jquery.js"></script>
 
+<style>
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.2s
+    }
 
 
-<div id="app" style="padding:15px;float:left">
+    
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
 
-    <subtopic id="supertopic" style="width:100%"></subtopic>
-    <subtopic id="hottopics" style="width:100%"></subtopic>
-</div>
+</style>
 
-<script type="text/javascript">
 
-    Vue.component('subtopic', {
-        template: `
-        <div>
+
+
+<template id="subtopic">
+    <transition name="fade">
+        <div v-if="visible">
             <div style="width:100%;margin-bottom:0px;">
                 <h1 style="display: inline-block;">{{ supertopic.topic }} </h1>
+                <span  v-for="subtopic in que">
+                    < <span class="topicQueLink" v-on:click="link(subtopic.id)" > {{ subtopic.topic }} </span>
+                </span>
             </div>
             <div class="card">
-                <div class="cardBody" style="">
-                    <div v-for="topic in subtopics" class="CardContainer" id="" onClick="loadOptions(this,'<%=topic.id%>',event)" >
-                        <a v-on:click="loadSubtopic"> 
+                <div class="cardBody" v-on:click="subcomment">  
+                    <div v-for="topic in subtopics" class="CardContainer">
+                        <a v-on:click.stop="link(topic.id)"> 
                             {{ topic.topic }}
                         </a>
-                        <div class="cardContent" v-if="topic.type=='text'">
+
+                        <br><span class="smallText" style="">posted by {{topic.username}}</span><br>
+
+                        <div class="cardContent" v-if="topic.body.length==0"></div>
+
+                        <div class="cardContent" v-else-if="topic.type=='text'">
+                            <br>
                             {{ topic.body }}
+                            <br>
                         </div>
 
                         <div class="cardContent" v-else-if="topic.type=='image'">
                             <br>
-                            <img v-bind:src=" '/images/' + topic.body + '.png' ">
-                        </div>
-                        
-                        <hr>
-                    </div>
-                    <center><button v-on:click="loadComments" class="button" style="color:rgb(34,224,151)">Show More</button></center>
+                            <img v-bind:src=" '/images/' + topic.body + '.png' "><br>
+                        </div> 
+
+                        <hr> 
+                    </div>      
+                    <center>
+                        <button v-on:click="loadMore" v-if="subtopics.length>0" class="button" style="color:rgb(34,224,151)">Show More</button>
+                        <div v-else>Sorry, we're all out of content! 😭</div>
+                    </center>
                 </div>
             </div>
         </div>
-        `,
+    </transition>
+</template>
 
-        props: ['id'],
+
+
+<div id="app" style="padding:15px;float:left;width:50%">
+    <subtopic topic="supertopic" style="width:100%"></subtopic>
+    <subtopic topic="hottopics" style="width:100%"></subtopic>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+    Vue.component('subtopic', {
+        
+        template: "#subtopic",
+
+        props: ['topic'],
 
         data: function(){
             return {
+                id:this.topic,
+                visible:false,
                 subtopics: [],
-                supertopic: {topic:"loading..."},
+                que:[],
+                supertopic: {topic:""},
                 topicURL:null,
-                page:0,
+                page:0       
             }
         },
 
         methods: {
-            loadComments: function () {
+            loadMore: function () {
                 this.page++;
-                $.post("/api/subtopic",{topic:this.id,index:this.page},function(data){
-                    this.subtopics=this.subtopics.concat(data.topics);
-                }.bind(this));
+                this.loadSubtopic();
+            },
+            link:function(topic){
+                this.id=topic;
+                this.page=0;
+                this.subtopics=[];
+                this.loadSubtopic();
             },
             loadSubtopic: function () {
-                this.page=0;
-                $.post("/api/subtopic",{topic:this.id},function(data){
-                    this.subtopics=data.topics;
-                    this.supertopic=data.supertopic;
-                }.bind(this));
-            }
+                this.visible=false;
+                setTimeout(function(){
+                    $.post("/api/subtopic",{topic:this.id,index:this.page},function(data){
+                        this.supertopic=data.supertopic;
+                        this.que=data.que;
+                        this.subtopics=this.subtopics.concat(data.topics);
+                        this.visible=true;
+                    }.bind(this));
+                }.bind(this), 200); 
+            },
+           subcomment:function(){
+               
+           }
         },
 
         created: function() {
-           $.post("/api/subtopic",{topic:this.id},function(data){
-                this.subtopics=data.topics;
-                this.supertopic=data.supertopic;
-            }.bind(this));
+            this.loadSubtopic();
         }
     });
 
@@ -84,4 +132,5 @@
       
 
 </script>
+
 

@@ -1,19 +1,25 @@
 <template>
-    <div style="width:100%;margin-bottom:0px;text-overflow: ellipsis;">
+    <div style="width:100%;margin-bottom:0px;">
         <h1 style="display: inline-block;">{{ supertopic.topic }} </h1>
     </div>
     <div class="card">
         <div class="cardBody" style="">
             <div v-for="topic in subtopics" class="CardContainer" id="" onClick="loadOptions(this,'<%=topic.id%>',event)" >
-                <a onClick="loadSubtopic('#subtopicPane',{topic:'<%= topic.id %>'},true,event);"> 
+                <a v-on:click="loadSubtopic"> 
                     {{ topic.topic }}
                 </a>
-                <div class="cardContent">
+                <div class="cardContent" v-if="topic.type=='text'">
                     {{ topic.body }}
                 </div>
+
+                <div class="cardContent" v-else-if="topic.type=='image'">
+                    <br>
+                    <img v-bind:src=" '/images/' + topic.body + '.png' ">
+                </div>
+                
                 <hr>
             </div>
-            <center><button onClick="showMore('<%= supertopic.id %>')" class="button" style="color:rgb(34,224,151)">Show More</button></center>
+            <center><button v-on:click="loadComments" class="button" style="color:rgb(34,224,151)">Show More</button></center>
         </div>
     </div>
 </template>
@@ -21,16 +27,39 @@
 <script>
 
     module.exports = {
-        data: function () {
+        props: ['id'],
+        template:"",
+        data: function(){
             return {
                 subtopics: [],
-                supertopic: "loading..."
+                supertopic: {topic:"loading..."},
+                topicURL:null,
+                page:0,
             }
         },
-        created: function () {
-            console.log('my-component created!')
+
+        methods: {
+            loadComments: function () {
+                this.page++;
+                $.post("/api/subtopic",{topic:this.id,index:this.page},function(data){
+                    this.subtopics=this.subtopics.concat(data.topics);
+                }.bind(this));
+            },
+            loadSubtopic: function () {
+                this.page=0;
+                $.post("/api/subtopic",{topic:this.id},function(data){
+                    this.subtopics=data.topics;
+                    this.supertopic=data.supertopic;
+                }.bind(this));
+            }
         },
-        
+
+        created: function() {
+           $.post("/api/subtopic",{topic:this.id},function(data){
+                this.subtopics=data.topics;
+                this.supertopic=data.supertopic;
+            }.bind(this));
+        }
     }
 
 </script>
