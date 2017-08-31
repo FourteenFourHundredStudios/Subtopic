@@ -1,0 +1,117 @@
+
+
+<style>
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.2s
+    }
+    .fade-enter, .fade-leave-to{
+        opacity: 0;
+    }
+</style>
+
+
+<template id="subtopic">
+    <transition name="fade">
+        <div v-if="visible">
+            <div style="width:100%;margin-bottom:0px;">
+                <h1 style="display: inline-block;">{{ supertopic.topic }} </h1>
+                <span  v-for="subtopic in que">
+                    < <span class="topicQueLink" v-on:click="link(subtopic.id)" > {{ subtopic.topic }} </span>
+                </span>
+            </div>
+            <div class="card">
+                <div class="cardBody" v-on:click="subcomment">  
+                    <div v-for="topic in subtopics" class="CardContainer">
+                        <a v-on:click.stop="link(topic.id)"> 
+                            {{ topic.topic }}
+                        </a>
+
+                        <br><span class="smallText" >posted by {{topic.username}}</span><br>
+
+                        <div class="cardContent" v-if="topic.body.length==0"></div>
+
+                        <div class="cardContent" v-else-if="topic.type=='text'">
+                            <br>
+                            {{ topic.body }}
+                            <br>
+                        </div>
+
+                        <div class="cardContent" v-else-if="topic.type=='image'">
+                            <br>
+                            <img v-bind:src=" '/images/' + topic.body + '.png' "><br>
+                        </div> 
+
+                        <div>
+                            
+                        </div>
+
+                        <hr> 
+                    </div>      
+                    <center>
+                        <button v-on:click="loadMore" v-if="subtopics.length>0" class="button" style="color:rgb(34,224,151)">Show More</button>
+                        <div v-else>Sorry, we're all out of content! 😭</div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </transition>
+</template>
+
+
+
+<script type="text/javascript">
+    alert("here");
+    
+    Vue.component('subtopic', {
+        
+        template: "#subtopic",
+
+        props: ['topic'],
+
+        data: function(){
+            return {
+                id:this.topic,
+                visible:false,
+                subtopics: [],
+                que:[],
+                supertopic: {topic:""},
+                topicURL:null,
+                page:0       
+            }
+        },
+
+        methods: {
+            loadMore: function () {
+                this.page++;
+                this.loadSubtopic();
+            },
+            link:function(topic){
+                this.id=topic;
+                this.page=0;
+                this.subtopics=[];
+                this.loadSubtopic();
+            },
+            loadSubtopic: function () {
+                this.visible=false;
+                setTimeout(function(){
+                    $.post("/api/subtopic",{topic:this.id,index:this.page},function(data){
+                        this.supertopic=data.supertopic;
+                        this.que=data.que;
+                        this.subtopics=this.subtopics.concat(data.topics);
+                        this.visible=true;
+                    }.bind(this));
+                }.bind(this), 200); 
+            },
+           subcomment:function(){
+               
+           }
+        },
+
+        created: function() {
+            this.loadSubtopic();
+        }
+    });
+      
+
+</script>
+
