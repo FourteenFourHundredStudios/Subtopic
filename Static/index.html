@@ -9,19 +9,20 @@
         <script src="/static/components/loader.js"></script>
     </head>
     <body>
-        <div id="includedContent"></div>
         <div id="app">
-           
-            <component :is="currentView" transition="fade" transition-mode="out-in">
-           
+            <navbar></navbar>
+            <div style="padding:30px">
+                <component :is="currentView" transition="fade" transition-mode="out-in">
+            </div>
         </div>
     </body>
 </html>
 
 <script type="text/javascript">
 
-
-   loadImports(function(){
+    //always load components before pages
+    pages=["subtopic.html","navbar.html","pages/home.html"];
+    loadImports(pages,function(){
         var app = new Vue({
             el: '#app',
             data: {
@@ -30,8 +31,6 @@
         });
     }); 
 
-
-    
 
 </script>
 

@@ -1,5 +1,4 @@
-function loadImports(cb){
-    imports=["subtopic.html","pages/home.html"];
+function loadImports(imports,cb){
     i=-1;
     getNext();
     function getNext(){  

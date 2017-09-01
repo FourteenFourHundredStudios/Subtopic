@@ -1,17 +1,20 @@
 <template id="homepage">
-    <div>
-        <subtopic topic="supertopic" style="width:100%"></subtopic>
-        <subtopic topic="hottopics" style="width:100%"></subtopic>
+    <div style="padding:30px">
+        <div id="leftPane" style="float:left;width:30%"> 
+            <div id="loginForm"></div><br>
+            <div id="supertopicPane" style="margin:0"></div><br>
+            <div id="suggestionPane"></div><br>
+            <br><br>
+        </div>
+        <div id="rightPane" style="float:left;width:65%;margin-left:5%">       
+            <subtopic topic="supertopic"></subtopic><br>
+            <subtopic topic="hottopics"></subtopic><br>
+        </div>
     </div>
 </template>
 
 <script type="text/javascript">
-
-
     Vue.component('homepage', {
-        
         template: "#homepage",
-
     });
-
 </script>

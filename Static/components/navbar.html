@@ -1,0 +1,22 @@
+<template id="navbar"> 
+    <div>
+        <div style="margin:0px;top:5;left:0;width:100%;padding:0px;background-color:#42A5F5;position:fixed;max-height:100px;z-index: 999;">
+            <h1 class="clickable" onClick='loadSubtopic("#subtopicPane",{topic:"supertopic"},true);' style="padding:10px;color:white;padding:0px;padding-left:30px;float:left">[Subtopic]</h1>
+            <h3 id="userFields" style="display:none;padding:10px;color:white;padding:0px;padding-right:30px;float:right;padding-top:5px">
+                <button class="button" style="color:white" onClick='loadSubtopic("#subtopicPane",{topic:"yourtopics"},true);'>My Subtopics</button>
+                <button class="button" id="notes" style="color:white" onClick="loadNotes()">Notifications</button>
+                <button class="button" style="color:white" onClick="logout()">Logout</button> 
+                <br>
+                <div id="topPane"></div> 
+            </h3>
+        </div>
+        <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:rgb(34,224,151);position:fixed;height:5px;"></div>
+        <br><br>
+    </div>
+</template>
+
+<script type="text/javascript">
+    Vue.component('navbar', {
+        template: "#navbar",
+    });
+</script>
