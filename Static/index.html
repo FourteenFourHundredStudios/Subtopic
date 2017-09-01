@@ -12,7 +12,7 @@
         <div id="includedContent"></div>
         <div id="app">
            
-            <subtopic topic="supertopic" style="width:100%"></subtopic>
+            <component :is="currentView" transition="fade" transition-mode="out-in">
            
         </div>
     </body>
@@ -24,6 +24,9 @@
    loadImports(function(){
         var app = new Vue({
             el: '#app',
+            data: {
+                currentView: 'homepage'
+            }
         });
     }); 
 

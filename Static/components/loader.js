@@ -1,5 +1,5 @@
 function loadImports(cb){
-    imports=["subtopic.html"];
+    imports=["subtopic.html","pages/home.html"];
     i=-1;
     getNext();
     function getNext(){  
@@ -8,6 +8,7 @@ function loadImports(cb){
             cb();
             return;
         }
-        $("#includedContent").load("/static/components/"+imports[i],getNext);
+        $("body").append("<div id='includedContent"+i+"'></div>");
+        $("#includedContent"+i).load("/static/components/"+imports[i],getNext);
     }   
 }
