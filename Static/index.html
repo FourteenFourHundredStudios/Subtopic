@@ -1,12 +1,12 @@
 <html>
     <head>
+        <title>[Subtopic]</title>
         <script src="/static/lib/vue.js"></script>
         <script src="/static/lib/jquery.js"></script>
-
+        <script src="/static/util.js"></script>
+        <script src="/static/components/loader.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/css/Card.css"/>
         <link rel="stylesheet" type="text/css" href="/static/css/Elements.css"/>
-        <title>[Subtopic]</title>
-        <script src="/static/components/loader.js"></script>
     </head>
     <body>
         <div id="app">
@@ -20,13 +20,13 @@
 
 <script type="text/javascript">
 
-    //always load components before pages
-    pages=["subtopic.html","navbar.html","pages/home.html"];
+    pages=["subtopic.html","navbar.html","openSubtopic.html","login.html","pages/home.html"];
     loadImports(pages,function(){
         var app = new Vue({
             el: '#app',
             data: {
-                currentView: 'homepage'
+                currentView: 'homepage',
+                loginView: 'login',
             }
         });
     }); 

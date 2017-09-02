@@ -48,7 +48,8 @@
                         <hr> 
                     </div>      
                     <center>
-                        <button v-on:click="loadMore" v-if="subtopics.length>0" class="button" style="color:rgb(34,224,151)">Show More</button>
+                        <div v-if="error!=null">{{error}}</div>
+                        <button v-on:click="loadMore" v-else-if="subtopics.length>0" class="button" style="color:rgb(34,224,151)">Show More</button>
                         <div v-else>Sorry, we're all out of content! 😭</div>
                     </center>
                 </div>
@@ -75,7 +76,8 @@
                 que:[],
                 supertopic: {topic:""},
                 topicURL:null,
-                page:0       
+                page:0,     
+                error:null,  
             }
         },
 
@@ -93,7 +95,20 @@
             loadSubtopic: function () {
                 this.visible=false;
                 setTimeout(function(){
-                    $.post("/api/subtopic",{topic:this.id,index:this.page},function(data){
+                    if(getCookie("session")){
+                        userId=getCookie("session");
+                    }else{
+                        userId=undefined;
+                    }
+                    $.post("/api/subtopic",{topic:this.id,index:this.page,userId:userId,orgin:this.topic},function(data){
+                        if(data.error){
+                            this.supertopic={topic:"Error!!! 😑😐"};
+                            this.que=[];
+                            this.visible=true;
+                            this.subtopics=[];
+                            this.error=data.error;
+                            return;
+                        }
                         this.supertopic=data.supertopic;
                         this.que=data.que;
                         this.subtopics=this.subtopics.concat(data.topics);

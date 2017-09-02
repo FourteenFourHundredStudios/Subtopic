@@ -1,0 +1,66 @@
+<template id="login">
+    <transition name="fade">
+        <div>
+            <h1>Login</h1>
+            <div class="card">
+                <div class="cardBody">
+                    <input class="textbox" id="username" placeholder="username" type="text"><br><br>
+                    <input class="textbox" id="password" placeholder="password" type="password"><br>
+                    <br>
+                    <input class="button" type="submit" @click="login" id="loginButton" value="Login">
+                    <input class="button" type="submit" id="signupButton" value="Sign up">
+                </div>
+            </div>
+        </div>
+    </transition>
+</template>
+
+<script type="text/javascript">
+
+    Vue.component('login', {
+        template: "#login",
+        methods: {
+            
+            login: function () {
+                
+                 
+
+                query={username:$("#username").val(),password:$("#password").val()};
+                $.post("/login",query,function(result){
+                   
+                    if(result.status=="ok"){
+                        key=result.message;    
+                        setCookie("session",key,30);
+
+                        this.$parent.$emit('changeView', "openSubtopic");
+
+                    }else if(result.status=="error"){
+                        alert(result.message);
+                    }
+                }.bind(this));
+            }
+            
+        }
+    });
+
+/*
+    $("#loginButton").click(function(){
+        
+    });
+
+  
+   $("#signupButton").click(function(){
+       $.post("/loadSafe",{page:"SignUp"},function(div){
+           $("#loginForm").fadeOut("fast",function(){
+               $("#loginForm").replaceWith(div);
+               $('#subtopicForm').fadeIn("fast");
+           });
+       });
+
+
+   });
+*/
+
+
+
+</script>

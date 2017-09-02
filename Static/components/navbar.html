@@ -10,7 +10,7 @@
                 <div id="topPane"></div> 
             </h3>
         </div>
-        <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:rgb(34,224,151);position:fixed;height:5px;"></div>
+        <div style="margin:0px;top:0;left:0;width:100%;padding:0px;background-color:rgb(34,224,151);position:fixed;height:5px;z-index: 999;"></div>
         <br><br>
     </div>
 </template>
@@ -19,4 +19,8 @@
     Vue.component('navbar', {
         template: "#navbar",
     });
+    if(getCookie("session")){
+        $("#userFields").fadeIn();
+        //alert(getCookie("session"));
+    }
 </script>

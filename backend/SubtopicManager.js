@@ -79,7 +79,6 @@ function getSubtopics(req,callback){
         });
     }else if(globalTopics[req.body.topic]==undefined){
         query={linked:req.body.topic};
-        //console.log(req.body.subcomments);
         if(req.body.subcomments!=undefined){
             query={
                 linked:req.body.topic,
@@ -111,7 +110,7 @@ function getSupertopic(req,subtopics,callback){
 
 function getQue(req,subtopics,supertopic,callback){
     if(globalTopics[req.body.topic]==undefined){
-        getLinkQue(req.body.topic,function(que){
+        getLinkQue(req.body.topic,req,function(que){
             callback(null,req,subtopics,supertopic,que);
         })
     }else{
@@ -192,7 +191,7 @@ app.post('/api/subtopic/', function (req, res) {
                 res.send(info);
             });
         }else{
-            res.send("<h1>Error: We have no idea what just happend</h1><div class='card cardBody CardContainer cardContent' ><div style='padding:10px'>This Subtopic does not exist! 🤔😭</div></div>");
+            res.send({error:"This Subtopic does not exist! 🤔😭"});
         }
     });
 });
@@ -212,12 +211,12 @@ function getTopics(search,index,count,sort,callback){
 }
 
 
-function getLinkQue(id,callback){
+function getLinkQue(id,req,callback){
     que=[];
     nextLink(id);
     function nextLink(nextId){
         if(nextId=="supertopic"){
-            val={id:"supertopic",topic:"Supertopic"}
+            val={id:req.body.orgin,topic:"Supertopic"}
             que.push(val);
             callback(que);
             return;

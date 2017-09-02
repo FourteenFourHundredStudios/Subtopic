@@ -1,0 +1,45 @@
+<template id="openSubtopic">
+    <transition name="fade">
+        <div id="subtopicForm">
+            <h1>Open a Subtopic</h1>
+
+            <div class="card">
+                <div class="cardBody">
+                    <iframe id="hiddenFrame" name="hiddenFrame" style="width:0; height:0; border:0; border:none;margin:0;"></iframe>
+
+                    <form id="imageForm" action="/postImage" method="post" enctype="multipart/form-data" target="hiddenFrame" style="margin:0">
+
+                        <input type="hidden" id="sessionKey" name="sessionKey" value="">
+                        <input type="hidden" id="supertopic" name="supertopic" value="">
+
+                        <input type="text" id="topic" name="topic" class="textbox" placeholder="Topic title"><br><br>
+                        <textarea class="textbox" id="body" placeholder="Your content goes here (optional)" rows="10" cols="50"></textarea>
+                        <br><br>
+                        
+                        
+                        <button class="button" type="button" id="postButton" value="Post">Post</button>
+                    
+                    
+                        <input type="file" id="imageButton" name="fileHolder" value="Image"/>
+                        <label class="button" for="imageButton">Image</label>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </transition>
+</template>
+
+<script type="text/javascript">
+
+    Vue.component('openSubtopic', {
+        template: "#openSubtopic",
+        methods: {
+            
+            
+        }
+    });
+
+
+
+</script>
