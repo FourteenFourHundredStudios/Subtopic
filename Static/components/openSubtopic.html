@@ -42,4 +42,98 @@
 
 
 
+    type="text";
+    
+    //socket.emit('noteGet', {id:getCookie("session")});
+    //socket.emit('join',getCookie("session"));
+
+
+    $('#topic').on('input',function(e){
+        if($("#topic").val()=="<subcomment>"){
+            $("#topic").css("color", "rgb(44,244,171)");
+           //  $("#topic").css("color", "grey");
+       //     $("#topic").css("color", "#C7C7CD");
+        }else{
+            $("#topic").css("color", "black");
+        }
+    });
+
+    $("#postButton").click(function(){
+        
+        if(type=="image"){
+            uploadImage();
+            return;
+        }
+        $.post("/post",{
+            id:getCookie("session"),
+            supertopic:activeSubtopic,
+            topic:$("#topic").val(),
+
+            body:$("#body").val()
+        },function(result){
+            if(result.status=="ok"){
+                $("#topic").val("");
+                $("#topic").focus();
+                $("#body").val("");
+                loadSubtopic("#subtopicPane",{topic:activeSubtopic},true);
+                //alert("Your Subtopic was posted!");
+            }else{
+                alert(result.message);
+            }
+        });
+
+    });
+
+  
+     $("#imageButton").change(function (){
+        var fileName = $(this).val().replace("C:\\fakepath\\","");
+        $("#body").replaceWith("<div class='imageBlock'><h2 style='margin:0px;'>"+fileName+"</h2></div>");
+        type="image";
+
+        //  <button class="button" type="submit" id="postButton" value="Post">Post</button>
+
+        $("#postButton").replaceWith('<input class="button" type="submit" id="postButton" value="Post">');
+
+        //alert(fileName);
+        });
+
+        $("#imageForm").keydown(function(event){
+            if(event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+            }
+        });
+
+        $("#imageForm").submit( function(eventObj) {
+
+
+            $('#supertopic').val(activeSubtopic);
+            $('#sessionKey').val(getCookie("session"));
+
+            return true;
+        });
+
+    $("#hiddenFrame").on("load", function () {
+        resp=$("#hiddenFrame").contents().find("body").html().replace('<pre style="word-wrap: break-word; white-space: pre-wrap;">',"").replace("</pre>","");
+        if(resp=="ok"){
+
+            loadSubtopic("#subtopicPane",{topic:activeSubtopic},true);
+
+            //too lazy to think of a way to revert post subtopic Form back, so im just loading it again from server lol
+            $.post("/load",{id:getCookie("session"),page:"openSubtopic"},function(div){       
+                $("#subtopicForm").fadeOut("fast",function(){
+                    $("#subtopicForm").replaceWith(div);
+                    $('#subtopicForm').fadeIn("fast");
+                });
+            });
+        }else{
+            //stupid firefox thing
+            if(resp.length>0){
+                alert(resp);
+            }
+        }
+    });
+
+
+
 </script>

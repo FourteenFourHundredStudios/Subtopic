@@ -48,14 +48,14 @@ globalTopics={
 
     yourtopics:{
         getTopics:function(req,callback){
-            if(req.body.userId.length!=0){
+            if(req.body.userId){
                 dbm.getOne({session:req.body.userId},"users",function(user){
                     getTopics({username:user.username},req.topic.index,req.topic.count,{date:-1},function(data){
                         callback(data);
                     });
                 });
             }else{
-                callback([]);
+                callback({error:"Login or Sign up to see your posts!"});
             }
         },
         supertopic:{
